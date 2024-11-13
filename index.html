@@ -3,24 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatGPT-Style Assistant</title>
+    <title>MongoDB + AWS Assistant</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div id="main-container">
-        <!-- Sidebar for chat list -->
         <div id="chat-list">
-            <button id="new-chat-btn">New Chat</button>
-            <h2>Chats</h2>
-            <ul id="chat-items"></ul>
+            <div class="logo-container">
+                <img src="logo_mdb.png" alt="MongoDB Logo" class="company-logo">
+            </div>
+            <button id="new-chat-btn">
+                <i class="fas fa-plus"></i> New Chat
+            </button>
+            <div class="chat-list-container">
+                <ul id="chat-items"></ul>
+            </div>
         </div>
 
-        <!-- Chat container for messages -->
         <div id="chat-container">
             <div id="messages"></div>
             <div id="input-container">
-                <input type="text" id="user-input" placeholder="Type your message here..." />
-                <button id="send-btn">Send</button>
+                <div class="input-wrapper">
+                    <input type="text" id="user-input" placeholder="Send a message..." />
+                    <button id="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="input-footer">
+                    ChatGPT may produce inaccurate information.
+                </div>
             </div>
         </div>
     </div>

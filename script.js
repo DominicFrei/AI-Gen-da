@@ -13,28 +13,28 @@ const newChatBtn = document.getElementById("new-chat-btn");
 function addMessage(content, isUser) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${isUser ? "user-message" : "assistant-message"}`;
+    
+    const messageContent = document.createElement("div");
+    messageContent.className = "message-content";
 
-    // Enhanced formatting for the assistant's response
     if (!isUser) {
-        // Replace newlines with <br> for line breaks, and handle basic list formatting
         const formattedContent = content
             .replace(/\n/g, "<br>")
-            .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;") // Convert tabs to spaces for indentation
-            .replace(/(\d+)\./g, "<br><strong>$1.</strong>") // Bold numbered lists
-            .replace(/   - /g, "&nbsp;&nbsp;&nbsp;&nbsp;- ") // Add spacing before hyphenated items
-            .replace(/(\b[a-c]\.\b)/g, "<br>&nbsp;&nbsp;&nbsp;<strong>$1</strong>"); // Bold sublist items a, b, c
-
-        messageDiv.innerHTML = formattedContent;
+            .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
+            .replace(/(\d+)\./g, "<br><strong>$1.</strong>")
+            .replace(/   - /g, "&nbsp;&nbsp;&nbsp;&nbsp;- ")
+            .replace(/(\b[a-c]\.\b)/g, "<br>&nbsp;&nbsp;&nbsp;<strong>$1</strong>");
+        messageContent.innerHTML = formattedContent;
     } else {
-        messageDiv.textContent = content;
+        messageContent.textContent = content;
     }
 
+    messageDiv.appendChild(messageContent);
     messagesContainer.appendChild(messageDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-    // Store message in chatMessages for the current thread_id
     if (!chatMessages[thread_id]) {
-        chatMessages[thread_id] = []; // Initialize array if it doesn't exist
+        chatMessages[thread_id] = [];
     }
     chatMessages[thread_id].push({ content, isUser });
 }
@@ -67,10 +67,26 @@ function displayChatMessages(threadId) {
 // Function to create a new chat session in the list
 function addChatSession(threadId) {
     const chatItem = document.createElement("li");
-    chatItem.textContent = threadId;
+    chatItem.innerHTML = `
+        <i class="fas fa-message"></i>
+        <span>Chat ${threadId.substring(0, 5)}</span>
+    `;
+    
     chatItem.addEventListener("click", () => {
+        // Remove active class from all items
+        document.querySelectorAll('#chat-items li').forEach(item => {
+            item.classList.remove('active');
+        });
+        // Add active class to clicked item
+        chatItem.classList.add('active');
         loadChat(threadId);
     });
+    
+    // Make first chat active by default
+    if (chatList.length === 0) {
+        chatItem.classList.add('active');
+    }
+    
     chatItems.appendChild(chatItem);
     chatList.push(threadId);
 }
