@@ -74,27 +74,35 @@ body {
     flex-direction: column;
     height: 100%;
     background-color: #343541;
+    overflow-x: hidden;
 }
 
 #messages {
     flex-grow: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 24px 0;
+    width: 100%;
 }
 
 .message {
     padding: 24px;
     margin: 0;
-    max-width: none;
     line-height: 1.6;
     width: 100%;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
+    overflow-x: hidden;
 }
 
 .message-content {
     max-width: 768px;
     width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 .user-message {
@@ -162,10 +170,7 @@ body {
 }
 
 .input-footer {
-    color: rgba(255,255,255,0.5);
-    font-size: 0.75rem;
-    text-align: center;
-    padding-top: 12px;
+    display: none;
 }
 
 /* Scrollbar styling */
@@ -203,4 +208,12 @@ body {
 
 #chat-items li.active {
     background: linear-gradient(90deg, rgba(0,237,100,0.2) 0%, rgba(255,153,0,0.2) 100%);
+}
+
+/* Ensure code blocks don't overflow */
+.message pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
