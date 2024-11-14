@@ -415,7 +415,7 @@ body {
     }
 }
 
-/* Add mobile header styles */
+/* Mobile header base styles */
 .mobile-header {
     display: none;
     position: fixed;
@@ -428,49 +428,16 @@ body {
     padding: 0 15px;
     align-items: center;
     border-bottom: 1px solid rgba(255,255,255,0.1);
-    justify-content: center;
 }
 
-.mobile-logo {
-    height: 25px;
-    margin-left: 0;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-#mobile-menu {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 8px 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-}
-
-/* Update mobile styles */
+/* Mobile styles */
 @media (max-width: 768px) {
-    .mobile-header {
-        display: flex;
+    .mobile-only {
+        display: block;
     }
 
-    #mobile-menu {
-        position: absolute;
-        left: 15px;
-        background: transparent;
-        border: none;
-        color: white;
-        font-size: 24px;
-        cursor: pointer;
-        padding: 8px 12px;
+    .mobile-header {
+        display: flex !important; /* Force display */
     }
 
     #chat-container {
@@ -487,21 +454,6 @@ body {
         padding-top: 0;
     }
 
-    /* Hide desktop logo in sidebar on mobile */
-    @media (max-width: 768px) {
-        #chat-list .logo-container {
-            display: none;
-        }
-    }
-
-    #input-container {
-        position: relative;
-        bottom: 0;
-        width: calc(100% - 32px);
-        padding: 16px;
-        background: #343541;
-    }
-
     #chat-list {
         position: fixed;
         left: -260px;
@@ -514,4 +466,109 @@ body {
     #chat-list.active {
         left: 0;
     }
+
+    .mobile-header .logo-with-credits {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    #mobile-menu {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1002;
+    }
+}
+
+/* Add styles for credits */
+.logo-with-credits {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.credits {
+    color: #888;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* Update existing styles */
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #202123;
+    z-index: 1000;
+    padding: 0 15px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    justify-content: center;
+}
+
+.mobile-header .logo-with-credits {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo-container {
+    padding: 20px 15px;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    margin-bottom: 10px;
+    position: relative;
+}
+
+/* Adjust mobile styles */
+@media (max-width: 768px) {
+    .mobile-header .credits {
+        font-size: 11px; /* Slightly smaller on mobile */
+    }
+    
+    /* Rest of the mobile styles remain the same */
+}
+
+/* Logo size control */
+.mobile-header .logo-with-credits img {
+    height: 25px;
+    width: auto;
+    max-height: 25px;
+    object-fit: contain;
+}
+
+.mobile-header .logo-with-credits {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 50%; /* Prevent logo container from getting too wide */
+}
+
+.mobile-logo {
+    max-width: 100%;
+    height: auto;
+    max-height: 25px;
+}
+
+/* Add styles for the links */
+.credits a {
+    color: #00ED64; /* MongoDB green for links */
+    text-decoration: underline;
+    transition: all 0.2s ease;
+    font-weight: 500; /* Slightly bolder */
+}
+
+.credits a:hover {
+    color: #FF9900; /* AWS orange on hover */
+    text-decoration: none; /* Remove underline on hover */
 }
