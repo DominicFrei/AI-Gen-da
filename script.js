@@ -1,7 +1,7 @@
-const backendUrl = "https://bzjj7l.buildship.run/AWSAgent"; // Your backend URL
-let thread_id = Math.random().toString(36).substring(7); // Generate a random thread ID
-const chatList = []; // Array to store chat sessions
-const chatMessages = {}; // Object to store messages for each thread_id
+const backendUrl = "https://bzjj7l.buildship.run/AWSAgent";
+let thread_id = Math.random().toString(36).substring(7);
+const chatHistory = [];
+const chatMessages = {};
 
 const messagesContainer = document.getElementById("messages");
 const userInput = document.getElementById("user-input");
@@ -9,7 +9,15 @@ const sendBtn = document.getElementById("send-btn");
 const chatItems = document.getElementById("chat-items");
 const newChatBtn = document.getElementById("new-chat-btn");
 
-// Function to add a message to the chat UI and store it
+// Mobile menu elements
+const mobileMenuBtn = document.getElementById('mobile-menu');
+const closeSidebarBtn = document.getElementById('close-sidebar');
+const sidebarElement = document.getElementById('chat-list');
+const overlay = document.createElement('div');
+overlay.className = 'overlay';
+document.body.appendChild(overlay);
+
+// Chat functionality
 function addMessage(content, isUser) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${isUser ? "user-message" : "assistant-message"}`;
@@ -39,32 +47,6 @@ function addMessage(content, isUser) {
     chatMessages[thread_id].push({ content, isUser });
 }
 
-// Function to display all messages for a given chat session
-function displayChatMessages(threadId) {
-    messagesContainer.innerHTML = ""; // Clear current messages
-    const messages = chatMessages[threadId] || []; // Get messages for the specified thread_id
-
-    // Display each message
-    messages.forEach(message => {
-        const messageDiv = document.createElement("div");
-        messageDiv.className = `message ${message.isUser ? "user-message" : "assistant-message"}`;
-        if (message.isUser) {
-            messageDiv.textContent = message.content;
-        } else {
-            const formattedContent = message.content
-                .replace(/\n/g, "<br>")
-                .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
-                .replace(/(\d+)\./g, "<br><strong>$1.</strong>")
-                .replace(/   - /g, "&nbsp;&nbsp;&nbsp;&nbsp;- ")
-                .replace(/(\b[a-c]\.\b)/g, "<br>&nbsp;&nbsp;&nbsp;<strong>$1</strong>");
-            messageDiv.innerHTML = formattedContent;
-        }
-        messagesContainer.appendChild(messageDiv);
-    });
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}
-
-// Function to create a new chat session in the list
 function addChatSession(threadId) {
     const chatItem = document.createElement("li");
     chatItem.innerHTML = `
@@ -73,51 +55,41 @@ function addChatSession(threadId) {
     `;
     
     chatItem.addEventListener("click", () => {
-        // Remove active class from all items
         document.querySelectorAll('#chat-items li').forEach(item => {
             item.classList.remove('active');
         });
-        // Add active class to clicked item
         chatItem.classList.add('active');
         loadChat(threadId);
+        
+        // Close sidebar on mobile when chat is selected
+        if (window.innerWidth <= 768) {
+            sidebarElement.classList.remove('active');
+            overlay.classList.remove('active');
+        }
     });
     
-    // Make first chat active by default
-    if (chatList.length === 0) {
+    if (chatHistory.length === 0) {
         chatItem.classList.add('active');
     }
     
     chatItems.appendChild(chatItem);
-    chatList.push(threadId);
+    chatHistory.push(threadId);
 }
 
-// Function to start a new chat
-function startNewChat() {
-    thread_id = Math.random().toString(36).substring(7); // Generate a new thread ID
-    console.log("Starting new chat with thread ID:", thread_id);
-    messagesContainer.innerHTML = ""; // Clear the chat messages
-    addMessage(`New chat started: ${thread_id}`, false); // Placeholder message
-    addChatSession(thread_id); // Add to chat list
+// Mobile menu functionality
+function toggleSidebar() {
+    sidebarElement.classList.toggle('active');
+    overlay.classList.toggle('active');
 }
 
-// Function to load a specific chat's messages
-function loadChat(selectedThreadId) {
-    console.log("Loading chat:", selectedThreadId);
-    thread_id = selectedThreadId; // Set the current thread_id to the selected one
-    displayChatMessages(thread_id); // Display stored messages for this chat
-}
+mobileMenuBtn.addEventListener('click', toggleSidebar);
+closeSidebarBtn.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', toggleSidebar);
 
-// Initialize first chat session
-addChatSession(thread_id);
-
-// Send message to backend
+// Message sending functionality
 async function sendMessage(message) {
-    addMessage(message, true); // Display user message
-    userInput.value = ""; // Clear input
-
-    console.log("Sending message:", message); // Log the message being sent
-    console.log("Thread ID:", thread_id); // Log the thread ID
-    console.log("Sending POST request to:", backendUrl); // Log the backend URL
+    addMessage(message, true);
+    userInput.value = "";
 
     try {
         const response = await fetch(backendUrl, {
@@ -131,36 +103,43 @@ async function sendMessage(message) {
             })
         });
 
-        console.log("Response status:", response.status); // Log the response status
-
         if (!response.ok) {
-            console.error("Failed to get a valid response from the backend:", response.status, response.statusText);
-            addMessage("Error: Unable to reach assistant.", false);
-            return;
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log("Response data:", data); // Log the data received from the backend
-
         addMessage(data.message || "No response from assistant.", false);
     } catch (error) {
-        console.error("Fetch error:", error); // Log any error during the fetch
+        console.error("Error:", error);
         addMessage("Error: Unable to reach assistant.", false);
     }
 }
 
-// Event listeners
+// Event listeners for sending messages
 sendBtn.addEventListener("click", () => {
-    if (userInput.value.trim()) {
-        sendMessage(userInput.value.trim());
+    const message = userInput.value.trim();
+    if (message) {
+        sendMessage(message);
     }
 });
 
 userInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter" && userInput.value.trim()) {
-        sendMessage(userInput.value.trim());
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        const message = userInput.value.trim();
+        if (message) {
+            sendMessage(message);
+        }
     }
 });
 
-// New chat button event listener
-newChatBtn.addEventListener("click", startNewChat);
+// Initialize first chat session
+addChatSession(thread_id);
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+        sidebarElement.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+});
