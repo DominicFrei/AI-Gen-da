@@ -17,6 +17,18 @@ const overlay = document.createElement('div');
 overlay.className = 'overlay';
 document.body.appendChild(overlay);
 
+// Add loading indicator functionality
+const loadingIndicator = document.getElementById("loading-indicator");
+
+function showLoadingIndicator() {
+    loadingIndicator.classList.remove("hidden");
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function hideLoadingIndicator() {
+    loadingIndicator.classList.add("hidden");
+}
+
 // Chat functionality
 function addMessage(content, isUser) {
     const messageDiv = document.createElement("div");
@@ -90,6 +102,7 @@ overlay.addEventListener('click', toggleSidebar);
 async function sendMessage(message) {
     addMessage(message, true);
     userInput.value = "";
+    showLoadingIndicator();
 
     try {
         const response = await fetch(backendUrl, {
@@ -103,6 +116,8 @@ async function sendMessage(message) {
             })
         });
 
+        hideLoadingIndicator();
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -110,6 +125,7 @@ async function sendMessage(message) {
         const data = await response.json();
         addMessage(data.message || "No response from assistant.", false);
     } catch (error) {
+        hideLoadingIndicator();
         console.error("Error:", error);
         addMessage("Error: Unable to reach assistant.", false);
     }
