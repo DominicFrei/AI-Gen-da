@@ -428,11 +428,32 @@ body {
     padding: 0 15px;
     align-items: center;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    justify-content: center;
 }
 
 .mobile-logo {
     height: 25px;
-    margin-left: 50px; /* Space for hamburger menu */
+    margin-left: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#mobile-menu {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
 }
 
 /* Update mobile styles */
@@ -454,8 +475,8 @@ body {
 
     #chat-container {
         width: 100%;
-        height: calc(100% - 60px); /* Subtract header height */
-        margin-top: 60px; /* Add space for header */
+        height: calc(100% - 60px);
+        margin-top: 60px;
         display: flex;
         flex-direction: column;
     }
@@ -463,7 +484,7 @@ body {
     #messages {
         flex: 1;
         overflow-y: auto;
-        padding-top: 0; /* Remove previous padding */
+        padding-top: 0;
     }
 
     /* Hide desktop logo in sidebar on mobile */
@@ -486,7 +507,7 @@ body {
         left: -260px;
         top: 0;
         bottom: 0;
-        z-index: 1001; /* Above header */
+        z-index: 1001;
         transition: left 0.3s ease;
     }
 
