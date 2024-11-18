@@ -467,25 +467,21 @@ const mongodbExample = {
             isUser: true
         },
         {
-            content: `<p>There are two MongoDB-related sessions at AWS re:Invent 2024:</p>
+            content: `There are two MongoDB-related sessions at AWS re:Invent 2024:
 
-<p>1. "Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI" (AIM104-S)</p>
-<ul style="margin: 5px 0 15px 20px;">
-    <li>Date: December 4, 2024</li>
-    <li>Time: 13:00 - 14:00</li>
-    <li>Location: Wynn | Upper Convention Promenade | Bollinger</li>
-    <li>Type: Breakout session (sponsored by MongoDB)</li>
-    <li>Abstract: This session features a panel discussion with founders and engineering leaders from MongoDB, Anyscale, Cohere, and Fireworks AI. They will discuss how AI has changed their businesses, factors to consider when building LLM applications, and lessons learned from building AI tools and technologies.</li>
-</ul>
+1. **"Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI"** (AIM104-S)
+* Date: December 4, 2024
+* Time: 13:00 - 14:00
+* Location: Wynn | Upper Convention Promenade | Bollinger
+* Type: Breakout session (sponsored by MongoDB)
+* Abstract: This session features a panel discussion with founders and engineering leaders from MongoDB, Anyscale, Cohere, and Fireworks AI. They will discuss how AI has changed their businesses, factors to consider when building LLM applications, and lessons learned from building AI tools and technologies.
 
-<p>2. "Deep dive into Amazon DocumentDB and its innovations" (DAT324)</p>
-<ul style="margin: 5px 0 15px 20px;">
-    <li>Date: December 3, 2024</li>
-    <li>Time: 16:30 - 17:30</li>
-    <li>Location: Wynn | Level 1 | Lafite 4 | Content Hub | Orange Screen</li>
-    <li>Type: Breakout session</li>
-    <li>Abstract: While not specifically about MongoDB, this session focuses on Amazon DocumentDB, which has MongoDB compatibility. It covers new features of Amazon DocumentDB, including global cluster failover, global cluster switchover, compression, and the latest query APIs.</li>
-</ul>`,
+2. **"Deep dive into Amazon DocumentDB and its innovations"** (DAT324)
+* Date: December 3, 2024
+* Time: 16:30 - 17:30
+* Location: Wynn | Level 1 | Lafite 4 | Content Hub | Orange Screen
+* Type: Breakout session
+* Abstract: While not specifically about MongoDB, this session focuses on Amazon DocumentDB, which has MongoDB compatibility. It covers new features of Amazon DocumentDB, including global cluster failover, global cluster switchover, compression, and the latest query APIs.`,
             isUser: false
         },
         {
@@ -493,35 +489,28 @@ const mongodbExample = {
             isUser: true
         },
         {
-            content: `<p>As a developer advocate, I would recommend attending the session:</p>
+            content: `As a developer advocate, I would recommend attending the session:
 
-<div style="background: rgba(0,237,100,0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
-    <p style="margin: 0;"><strong>"Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI"</strong> (sponsored by MongoDB)</p>
-    <ul style="margin: 10px 0 0 20px; padding: 0;">
-        <li>Session Code: AIM104-S</li>
-        <li>Date: December 4, 2024</li>
-        <li>Time: 13:00 - 14:00</li>
-        <li>Location: Wynn | Upper Convention Promenade | Bollinger</li>
-    </ul>
-</div>
+> **"Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI"** (AIM104-S)
+> * Date: December 4, 2024
+> * Time: 13:00 - 14:00
+> * Location: Wynn | Upper Convention Promenade | Bollinger
 
-<p>This session is likely to be more helpful for you as a developer advocate for several reasons:</p>
+This session is likely to be more helpful for you as a developer advocate for several reasons:
 
-<ol style="margin: 15px 0;">
-    <li><strong>Broader perspective:</strong> The panel includes leaders from multiple companies (MongoDB, Anyscale, Cohere, and Fireworks AI), giving you a wider view of the AI ecosystem and how different technologies integrate.</li>
+1. **Broader perspective:** The panel includes leaders from multiple companies (MongoDB, Anyscale, Cohere, and Fireworks AI), giving you a wider view of the AI ecosystem and how different technologies integrate.
 
-    <li><strong>AI focus:</strong> As AI is a hot topic in tech, understanding its intersection with databases like MongoDB will be valuable for engaging with developers and showcasing cutting-edge applications.</li>
+2. **AI focus:** As AI is a hot topic in tech, understanding its intersection with databases like MongoDB will be valuable for engaging with developers and showcasing cutting-edge applications.
 
-    <li><strong>Industry insights:</strong> You'll gain insight into how AI is changing businesses, which is crucial for advocating to developers about future trends and opportunities.</li>
+3. **Industry insights:** You'll gain insight into how AI is changing businesses, which is crucial for advocating to developers about future trends and opportunities.
 
-    <li><strong>Practical knowledge:</strong> The session covers lessons learned in building AI tools and technologies, which you can share with your developer community.</li>
+4. **Practical knowledge:** The session covers lessons learned in building AI tools and technologies, which you can share with your developer community.
 
-    <li><strong>Future-oriented:</strong> Discussion on what's coming next in AI will help you prepare developers for upcoming changes and opportunities in the field.</li>
+5. **Future-oriented:** Discussion on what's coming next in AI will help you prepare developers for upcoming changes and opportunities in the field.
 
-    <li><strong>Q&A opportunity:</strong> As a developer advocate, you can use this session to gather information and ask questions that will benefit the developers you work with.</li>
-</ol>
+6. **Q&A opportunity:** As a developer advocate, you can use this session to gather information and ask questions that will benefit the developers you work with.
 
-<p>This session aligns well with a developer advocate's role of staying informed about industry trends, understanding practical applications, and gathering insights to share with the developer community.</p>`,
+This session aligns well with a developer advocate's role of staying informed about industry trends, understanding practical applications, and gathering insights to share with the developer community.`,
             isUser: false
         }
     ]
@@ -538,49 +527,37 @@ const awsExample = {
             isUser: true
         },
         {
-            content: `<p>If your main interest is DevOps on AWS, I recommend the following sessions at AWS re:Invent 2024:</p>
+            content: `If your main interest is DevOps on AWS, I recommend the following sessions at AWS re:Invent 2024:
 
-<div style="margin: 20px 0;">
-    <p>1. "Supercharge your DevOps practices with generative AI" (DEV321)</p>
-    <ul style="margin: 5px 0 15px 20px;">
-        <li>Date: December 2, 2024</li>
-        <li>Time: 10:00 - 11:00</li>
-        <li>Location: Venetian | Level 3 | Murano 3304</li>
-    </ul>
-    <p>This session focuses on how generative AI can revolutionize DevOps practices, improving deployment frequency, reducing lead time for changes, and minimizing service disruptions. It includes live demos of Amazon Q and Amazon Bedrock to streamline workflows and automate tasks.</p>
-</div>
+1. **"Supercharge your DevOps practices with generative AI"** (DEV321)
+* Date: December 2, 2024
+* Time: 10:00 - 11:00
+* Location: Venetian | Level 3 | Murano 3304
 
-<div style="margin: 20px 0;">
-    <p>2. "Supercharge your innovation: Automate for operational excellence" (SUP307)</p>
-    <ul style="margin: 5px 0 15px 20px;">
-        <li>Date: December 5, 2024</li>
-        <li>Time: 11:30 - 12:30</li>
-        <li>Location: MGM Grand | Level 1 | Grand 119</li>
-    </ul>
-    <p>This session covers AWS best practices for streamlining operations and optimizing costs. It explores AWS's own automation practices and strategies to drive growth and innovation, with real operational use cases.</p>
-</div>
+This session focuses on how generative AI can revolutionize DevOps practices, improving deployment frequency, reducing lead time for changes, and minimizing service disruptions. It includes live demos of Amazon Q and Amazon Bedrock to streamline workflows and automate tasks.
 
-<div style="margin: 20px 0;">
-    <p>3. "Building the future of cloud operations at any scale" (COP202-INT)</p>
-    <ul style="margin: 5px 0 15px 20px;">
-        <li>Date: December 2, 2024</li>
-        <li>Time: 09:00 - 10:00</li>
-        <li>Location: Venetian | Level 5 | Palazzo Ballroom B</li>
-    </ul>
-    <p>While not explicitly labeled as DevOps, this session addresses key DevOps concerns such as improving efficiency, enhancing security and compliance, and making operations more intelligent and agile.</p>
-</div>
+2. **"Supercharge your innovation: Automate for operational excellence"** (SUP307)
+* Date: December 5, 2024
+* Time: 11:30 - 12:30
+* Location: MGM Grand | Level 1 | Grand 119
 
-<div style="margin: 20px 0;">
-    <p>4. "Reimagining the developer experience at AWS" (DOP220-INT)</p>
-    <ul style="margin: 5px 0 15px 20px;">
-        <li>Date: December 5, 2024</li>
-        <li>Time: 14:00 - 15:00</li>
-        <li>Location: Venetian | Level 5 | Palazzo Ballroom B</li>
-    </ul>
-    <p>This session explores how generative AI is transforming software development, which is crucial for modern DevOps practices. It covers cloud-native innovation and the integration of AI agents across the development lifecycle.</p>
-</div>
+This session covers AWS best practices for streamlining operations and optimizing costs. It explores AWS's own automation practices and strategies to drive growth and innovation, with real operational use cases.
 
-<p>These sessions cover a range of DevOps topics, from automation and operational excellence to the integration of AI in DevOps practices, providing a comprehensive view of DevOps on AWS.</p>`,
+3. **"Building the future of cloud operations at any scale"** (COP202-INT)
+* Date: December 2, 2024
+* Time: 09:00 - 10:00
+* Location: Venetian | Level 5 | Palazzo Ballroom B
+
+While not explicitly labeled as DevOps, this session addresses key DevOps concerns such as improving efficiency, enhancing security and compliance, and making operations more intelligent and agile.
+
+4. **"Reimagining the developer experience at AWS"** (DOP220-INT)
+* Date: December 5, 2024
+* Time: 14:00 - 15:00
+* Location: Venetian | Level 5 | Palazzo Ballroom B
+
+This session explores how generative AI is transforming software development, which is crucial for modern DevOps practices. It covers cloud-native innovation and the integration of AI agents across the development lifecycle.
+
+These sessions cover a range of DevOps topics, from automation and operational excellence to the integration of AI in DevOps practices, providing a comprehensive view of DevOps on AWS.`,
             isUser: false
         },
         {
@@ -588,36 +565,30 @@ const awsExample = {
             isUser: true
         },
         {
-            content: `<p>If you only have time for one session, I would recommend:</p>
+            content: `If you only have time for one session, I would recommend:
 
-<div style="background: rgba(0,237,100,0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
-    <p style="margin: 0;"><strong>"Supercharge your DevOps practices with generative AI"</strong> (DEV321)</p>
-    <ul style="margin: 10px 0 0 20px; padding: 0;">
-        <li>Date: December 2, 2024</li>
-        <li>Time: 10:00 - 11:00</li>
-        <li>Location: Venetian | Level 3 | Murano 3304</li>
-    </ul>
-</div>
+> **"Supercharge your DevOps practices with generative AI"** (DEV321)
+> * Date: December 2, 2024
+> * Time: 10:00 - 11:00
+> * Location: Venetian | Level 3 | Murano 3304
 
-<p>Here's why this session stands out:</p>
+Here's why this session stands out:
 
-<ol style="margin: 15px 0;">
-    <li><strong>Direct DevOps Focus:</strong> This session is specifically tailored to DevOps practices, which aligns perfectly with your main interest.</li>
+1. **Direct DevOps Focus:** This session is specifically tailored to DevOps practices, which aligns perfectly with your main interest.
 
-    <li><strong>Cutting-edge Technology:</strong> It explores the integration of generative AI into DevOps, which is at the forefront of DevOps evolution. This knowledge will be crucial for staying ahead in the field.</li>
+2. **Cutting-edge Technology:** It explores the integration of generative AI into DevOps, which is at the forefront of DevOps evolution. This knowledge will be crucial for staying ahead in the field.
 
-    <li><strong>Practical Demonstrations:</strong> The session includes live demos of Amazon Q and Amazon Bedrock, providing hands-on insights into how these tools can be applied in real DevOps scenarios.</li>
+3. **Practical Demonstrations:** The session includes live demos of Amazon Q and Amazon Bedrock, providing hands-on insights into how these tools can be applied in real DevOps scenarios.
 
-    <li><strong>Comprehensive Coverage:</strong> It addresses key DevOps metrics like deployment frequency, lead time for changes, service disruptions, and change failure rates. This comprehensive approach covers the full spectrum of DevOps concerns.</li>
+4. **Comprehensive Coverage:** It addresses key DevOps metrics like deployment frequency, lead time for changes, service disruptions, and change failure rates. This comprehensive approach covers the full spectrum of DevOps concerns.
 
-    <li><strong>Actionable Takeaways:</strong> The session promises to provide practical strategies for harnessing generative AI in DevOps, which you can potentially implement in your own work.</li>
+5. **Actionable Takeaways:** The session promises to provide practical strategies for harnessing generative AI in DevOps, which you can potentially implement in your own work.
 
-    <li><strong>AWS-Specific Tools:</strong> By focusing on Amazon Q and Amazon Bedrock, you'll gain insights into AWS-specific tools that can enhance your DevOps practices on the AWS platform.</li>
+6. **AWS-Specific Tools:** By focusing on Amazon Q and Amazon Bedrock, you'll gain insights into AWS-specific tools that can enhance your DevOps practices on the AWS platform.
 
-    <li><strong>Future-Oriented:</strong> Understanding how generative AI is transforming DevOps will prepare you for the future of cloud operations and development practices.</li>
-</ol>
+7. **Future-Oriented:** Understanding how generative AI is transforming DevOps will prepare you for the future of cloud operations and development practices.
 
-<p>This session offers a blend of cutting-edge technology, practical applications, and AWS-specific knowledge, making it the most valuable choice if you can only attend one DevOps-focused session at re:Invent 2024.</p>`,
+This session offers a blend of cutting-edge technology, practical applications, and AWS-specific knowledge, making it the most valuable choice if you can only attend one DevOps-focused session at re:Invent 2024.`,
             isUser: false
         },
         {
@@ -625,31 +596,24 @@ const awsExample = {
             isUser: true
         },
         {
-            content: `<p>I apologize, but I couldn't find any sessions specifically dedicated to Infrastructure-as-Code (IaC) in the search results provided. However, this doesn't necessarily mean there are no IaC-related sessions at AWS re:Invent 2024. IaC is an important topic in cloud computing and DevOps, so it's likely to be covered in some capacity.</p>
+            content: `I apologize, but I couldn't find any sessions specifically dedicated to Infrastructure-as-Code (IaC) in the search results provided. However, this doesn't necessarily mean there are no IaC-related sessions at AWS re:Invent 2024. IaC is an important topic in cloud computing and DevOps, so it's likely to be covered in some capacity.
 
-<p>Here are a few suggestions:</p>
+Here are a few suggestions:
 
-<ol style="margin: 15px 0;">
-    <li>The session <strong>"Reimagining the developer experience at AWS"</strong> (DOP220-INT) might touch on IaC as part of the broader discussion on software development practices and cloud-native innovation.</li>
+1. The session **"Reimagining the developer experience at AWS"** (DOP220-INT) might touch on IaC as part of the broader discussion on software development practices and cloud-native innovation.
 
-    <li><strong>"Compute innovation for any application, anywhere"</strong> (CMP215-INT) could potentially include information about IaC in the context of managing infrastructure for various compute options.</li>
+2. **"Compute innovation for any application, anywhere"** (CMP215-INT) could potentially include information about IaC in the context of managing infrastructure for various compute options.
 
-    <li>IaC principles might be discussed in DevOps-focused sessions like <strong>"Supercharge your DevOps practices with generative AI"</strong> (DEV321), which we discussed earlier.</li>
-</ol>
+3. IaC principles might be discussed in DevOps-focused sessions like **"Supercharge your DevOps practices with generative AI"** (DEV321), which we discussed earlier.
 
-<p>To find sessions specifically about Infrastructure-as-Code, I recommend:</p>
+To find sessions specifically about Infrastructure-as-Code, I recommend:
 
-<ul style="margin: 15px 0; padding-left: 20px;">
-    <li>Check the full AWS re:Invent 2024 agenda when it becomes available, as it may have more detailed session descriptions.</li>
+* Check the full AWS re:Invent 2024 agenda when it becomes available, as it may have more detailed session descriptions.
+* Look for sessions related to AWS CloudFormation, AWS CDK (Cloud Development Kit), or Terraform, as these are popular IaC tools used with AWS.
+* Consider attending broader DevOps or cloud architecture sessions, as IaC is often covered as part of these topics.
+* Visit the AWS booth or attend Q&A sessions where you can ask AWS experts about IaC best practices and tools.
 
-    <li>Look for sessions related to AWS CloudFormation, AWS CDK (Cloud Development Kit), or Terraform, as these are popular IaC tools used with AWS.</li>
-
-    <li>Consider attending broader DevOps or cloud architecture sessions, as IaC is often covered as part of these topics.</li>
-
-    <li>Visit the AWS booth or attend Q&A sessions where you can ask AWS experts about IaC best practices and tools.</li>
-</ul>
-
-<p>If IaC is a crucial topic for you, it might be worth reaching out to AWS re:Invent organizers directly to inquire about any sessions or workshops focusing on this area.</p>`,
+If IaC is a crucial topic for you, it might be worth reaching out to AWS re:Invent organizers directly to inquire about any sessions or workshops focusing on this area.`,
             isUser: false
         }
     ]
