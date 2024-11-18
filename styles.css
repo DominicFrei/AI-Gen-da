@@ -639,7 +639,7 @@ body {
 
 .qr-code-container {
     margin-top: 15px;
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     align-items: center;
     gap: 8px;
@@ -656,13 +656,6 @@ body {
 .qr-code-label {
     font-size: 12px;
     color: #888;
-}
-
-/* Update mobile styles to hide QR code on small screens */
-@media (max-width: 768px) {
-    .qr-code-container {
-        display: none;
-    }
 }
 
 .examples-section {
