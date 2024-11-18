@@ -61,9 +61,24 @@ body {
     margin-bottom: 2px;
     cursor: pointer;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     min-width: 0;
+    min-height: 24px;
+}
+
+#chat-items li i {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+#chat-items li span {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    flex: 1;
+    line-height: 1.4;
+    word-break: break-word;
 }
 
 #chat-items li:hover {
@@ -664,9 +679,24 @@ body {
     margin-bottom: 2px;
     cursor: pointer;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     min-width: 0;
+    min-height: 24px;
+}
+
+.example-item i {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.example-item span {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    flex: 1;
+    line-height: 1.4;
+    word-break: break-word;
 }
 
 .example-item:hover {
@@ -679,7 +709,7 @@ body {
 
 /* Ensure chat items don't wrap and handle overflow properly */
 #chat-items li span {
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
@@ -687,7 +717,7 @@ body {
 
 /* Also update example items to match */
 .example-item span {
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;

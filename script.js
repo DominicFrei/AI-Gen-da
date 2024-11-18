@@ -2,16 +2,19 @@
 let thread_id = localStorage.getItem('currentThreadId');
 let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
 let chatMessages = JSON.parse(localStorage.getItem('chatMessages') || '{}');
+let chatTitles = JSON.parse(localStorage.getItem('chatTitles') || '{}');
 
 // If there's no thread_id or chat history, initialize with a new chat
 if (!thread_id || chatHistory.length === 0) {
     thread_id = Math.random().toString(36).substring(7);
     chatHistory = [thread_id];
     chatMessages = { [thread_id]: [] };
+    chatTitles = { [thread_id]: 'New Chat' };
     // Save initial state
     localStorage.setItem('currentThreadId', thread_id);
     localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
     localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+    localStorage.setItem('chatTitles', JSON.stringify(chatTitles));
     // Display welcome message for new users
     displayWelcomeMessage();
 }
@@ -50,6 +53,7 @@ function updateLocalStorage() {
         localStorage.setItem('currentThreadId', thread_id);
         localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
         localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+        localStorage.setItem('chatTitles', JSON.stringify(chatTitles));
     } catch (e) {
         console.error('Error saving to localStorage:', e);
     }
@@ -250,24 +254,32 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Add this function to handle clearing conversations
 function clearConversations() {
+    // Clear localStorage
     localStorage.removeItem('currentThreadId');
     localStorage.removeItem('chatHistory');
     localStorage.removeItem('chatMessages');
     localStorage.removeItem('chatTitles');
     
+    // Create new thread
     thread_id = Math.random().toString(36).substring(7);
     chatHistory = [thread_id];
     chatMessages = { [thread_id]: [] };
     chatTitles = { [thread_id]: 'New Chat' };
     
+    // Save new state
     updateLocalStorage();
     
+    // Clear UI
     messagesContainer.innerHTML = '';
     userInput.value = '';
     
+    // Display welcome message after clearing
     displayWelcomeMessage();
+    
+    // Update chat list
     updateChatList();
     
+    // If on mobile, close the sidebar
     if (window.innerWidth <= 768) {
         sidebarElement.classList.remove('active');
         overlay.classList.remove('active');
@@ -334,11 +346,28 @@ if (!localStorage.getItem('hasInitialized')) {
     chatMessages = JSON.parse(localStorage.getItem('chatMessages') || '{}');
     chatTitles = JSON.parse(localStorage.getItem('chatTitles') || '{}');
     
-    // Update UI
-    updateChatList();
-    if (thread_id) {
-        loadChat(thread_id);
-    }
+    // Generate titles for any chats that don't have them
+    Promise.all(chatHistory.map(async (threadId) => {
+        if (!chatTitles[threadId] || chatTitles[threadId] === 'New Chat') {
+            const messages = chatMessages[threadId];
+            if (messages && messages.length > 1) { // If there's more than just the welcome message
+                const title = await generateChatTitle(messages);
+                if (title) {
+                    chatTitles[threadId] = title;
+                }
+            } else {
+                chatTitles[threadId] = 'New Chat';
+            }
+        }
+    })).then(() => {
+        // Save updated titles
+        updateLocalStorage();
+        // Update UI
+        updateChatList();
+        if (thread_id) {
+            loadChat(thread_id);
+        }
+    });
 }
 
 // Add function to generate chat title
