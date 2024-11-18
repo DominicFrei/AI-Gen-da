@@ -293,3 +293,168 @@ function displayWelcomeMessage() {
     chatMessages[thread_id].push({ content: welcomeMessage, isUser: false });
     updateLocalStorage();
 }
+
+// Modify the initialization code
+if (!localStorage.getItem('hasInitialized')) {
+    // Clear any existing data
+    localStorage.clear();
+    
+    // Initialize empty state
+    thread_id = Math.random().toString(36).substring(7);
+    chatHistory = [];
+    chatMessages = {};
+    
+    // Create demo chats
+    initializeDemoChats().then(() => {
+        // Save state after demo chats are created
+        updateLocalStorage();
+        // Mark as initialized
+        localStorage.setItem('hasInitialized', 'true');
+    });
+} else {
+    // Load existing data
+    thread_id = localStorage.getItem('currentThreadId');
+    chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+    chatMessages = JSON.parse(localStorage.getItem('chatMessages') || '{}');
+    
+    // Update UI
+    updateChatList();
+    if (thread_id) {
+        loadChat(thread_id);
+    }
+}
+
+// Modify addChatSession to include chat titles
+function addChatSession(threadId, title) {
+    const chatItem = document.createElement("li");
+    chatItem.innerHTML = `
+        <i class="fas fa-message"></i>
+        <span>${title || `Chat ${threadId.substring(0, 5)}`}</span>
+    `;
+    
+    chatItem.addEventListener("click", () => {
+        document.querySelectorAll('#chat-items li').forEach(item => {
+            item.classList.remove('active');
+        });
+        chatItem.classList.add('active');
+        thread_id = threadId;
+        loadChat(threadId);
+        updateLocalStorage();
+        
+        if (window.innerWidth <= 768) {
+            sidebarElement.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    });
+    
+    if (threadId === thread_id) {
+        chatItem.classList.add('active');
+    }
+    
+    chatItems.appendChild(chatItem);
+}
+
+// Add the MongoDB example chat content
+const mongodbExample = {
+    messages: [
+        {
+            content: `Hello!
+
+I am a chat bot powered by MongoDB, AWS and BuildShip that helps you find out more about the AWS re:Invent 2024 agenda.
+
+How can I help you?`,
+            isUser: false
+        },
+        {
+            content: "Show me the MongoDB sessions for this conference, please.",
+            isUser: true
+        },
+        {
+            content: `There are two MongoDB-related sessions at AWS re:Invent 2024:
+
+
+1. "Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI" (AIM104-S)
+    - Date: December 4, 2024
+    - Time: 13:00 - 14:00
+    - Location: Wynn | Upper Convention Promenade | Bollinger
+    - Type: Breakout session (sponsored by MongoDB)
+    - Abstract: This session features a panel discussion with founders and engineering leaders from MongoDB, Anyscale, Cohere, and Fireworks AI. They will discuss how AI has changed their businesses, factors to consider when building LLM applications, and lessons learned from building AI tools and technologies. You'll learn about exciting AI use cases, challenges in moving LLM applications from prototype to production, and perspectives on the future of AI.
+
+
+2. "Deep dive into Amazon DocumentDB and its innovations" (DAT324)
+    - Date: December 3, 2024
+    - Time: 16:30 - 17:30
+    - Location: Wynn | Level 1 | Lafite 4 | Content Hub | Orange Screen
+    - Type: Breakout session
+    - Abstract: While not specifically about MongoDB, this session focuses on Amazon DocumentDB, which has MongoDB compatibility. It covers new features of Amazon DocumentDB, including global cluster failover, global cluster switchover, compression, and the latest query APIs. You'll learn how these features can improve the resilience, performance, and effectiveness of your applications.
+
+These sessions offer insights into MongoDB's role in AI applications and AWS's MongoDB-compatible database solution, providing valuable information about the latest developments in MongoDB and related technologies.`,
+            isUser: false
+        },
+        {
+            content: "I am a developer advocate. Which one is most beneficial for me?",
+            isUser: true
+        },
+        {
+            content: `For a developer advocate, I would recommend:
+
+"Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI" (AIM104-S)
+
+This session is more beneficial for a developer advocate for several reasons:
+
+
+1. Industry Insights: As a developer advocate, you need to stay informed about the latest trends and how different companies are leveraging technologies. This panel discussion with leaders from MongoDB, Anyscale, Cohere, and Fireworks AI will provide you with diverse perspectives on how AI is impacting businesses across the industry.
+
+
+2. AI and MongoDB Integration: The session focuses on building AI stacks with MongoDB, which is crucial knowledge for advocating MongoDB's capabilities in AI applications. This aligns well with your need to understand and communicate how MongoDB fits into cutting-edge technology stacks.
+
+
+3. LLM Applications: You'll gain insights into building Large Language Model (LLM) applications, which is a hot topic in the developer community. This knowledge will be valuable when engaging with developers who are exploring AI integration in their projects.
+
+
+4. Use Cases and Challenges: The session promises to cover exciting AI use cases and the challenges of moving LLM applications from prototype to production. This practical information will be invaluable when you're advising developers on real-world implementations.
+
+
+5. Future Trends: As a developer advocate, you need to be ahead of the curve. This session will provide perspectives on what's coming next in AI, helping you prepare developers for future developments.
+
+
+6. Q&A Opportunity: The session encourages attendees to bring questions, which is perfect for a developer advocate. You can ask specific questions that will help you better support your developer community.
+
+
+7. Networking: This session provides an excellent opportunity to connect with leaders in the AI and database fields, which can be beneficial for your role in building relationships and gathering insights.
+
+While the Amazon DocumentDB session (DAT324) is also informative, it's more focused on specific technical features of a MongoDB-compatible service. As a developer advocate, the broader industry perspective and AI focus of the AIM104-S session will likely provide you with more versatile knowledge to support and inspire your developer community.`,
+            isUser: false
+        }
+    ]
+};
+
+// Add click handlers for example chats
+document.querySelectorAll('.example-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const exampleType = item.dataset.example;
+        
+        // Clear current chat
+        messagesContainer.innerHTML = '';
+        
+        // Load example chat based on type
+        if (exampleType === 'mongodb') {
+            mongodbExample.messages.forEach(msg => {
+                displayMessage(msg.content, msg.isUser);
+            });
+        }
+        // We'll add AWS and BuildShip examples later
+        
+        // Update UI
+        document.querySelectorAll('#chat-items li, .example-item').forEach(chat => {
+            chat.classList.remove('active');
+        });
+        item.classList.add('active');
+        
+        // Close sidebar on mobile
+        if (window.innerWidth <= 768) {
+            sidebarElement.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    });
+});

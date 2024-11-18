@@ -633,3 +633,42 @@ body {
         display: none;
     }
 }
+
+.examples-section {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.examples-title {
+    color: #888;
+    font-size: 0.9rem;
+    margin: 0 0 10px 15px;
+    font-weight: normal;
+}
+
+.example-items {
+    list-style: none;
+    padding: 0 8px;
+    margin: 0;
+}
+
+.example-item {
+    padding: 12px;
+    color: #ececec;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.example-item:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.example-item i {
+    color: #00ED64;
+}
