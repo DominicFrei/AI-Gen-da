@@ -1,13 +1,28 @@
-const backendUrl = "https://bzjj7l.buildship.run/AWSAgent";
-let thread_id = Math.random().toString(36).substring(7);
-const chatHistory = [];
-const chatMessages = {};
+// First, load data from localStorage
+let thread_id = localStorage.getItem('currentThreadId');
+let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+let chatMessages = JSON.parse(localStorage.getItem('chatMessages') || '{}');
 
+// If there's no thread_id or chat history, initialize with a new chat
+if (!thread_id || chatHistory.length === 0) {
+    thread_id = Math.random().toString(36).substring(7);
+    chatHistory = [thread_id];
+    chatMessages = { [thread_id]: [] };
+    // Save initial state
+    localStorage.setItem('currentThreadId', thread_id);
+    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+    localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+}
+
+const backendUrl = "https://bzjj7l.buildship.run/AWSAgent";
+
+// Get DOM elements
 const messagesContainer = document.getElementById("messages");
 const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 const chatItems = document.getElementById("chat-items");
 const newChatBtn = document.getElementById("new-chat-btn");
+const loadingIndicator = document.getElementById("loading-indicator");
 
 // Mobile menu elements
 const mobileMenuBtn = document.getElementById('mobile-menu');
@@ -17,9 +32,7 @@ const overlay = document.createElement('div');
 overlay.className = 'overlay';
 document.body.appendChild(overlay);
 
-// Add loading indicator functionality
-const loadingIndicator = document.getElementById("loading-indicator");
-
+// Loading indicator functions
 function showLoadingIndicator() {
     loadingIndicator.classList.remove("hidden");
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -29,8 +42,19 @@ function hideLoadingIndicator() {
     loadingIndicator.classList.add("hidden");
 }
 
-// Chat functionality
-function addMessage(content, isUser) {
+// Update localStorage helper function
+function updateLocalStorage() {
+    try {
+        localStorage.setItem('currentThreadId', thread_id);
+        localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+        localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+    } catch (e) {
+        console.error('Error saving to localStorage:', e);
+    }
+}
+
+// Separate display message function (doesn't modify storage)
+function displayMessage(content, isUser) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${isUser ? "user-message" : "assistant-message"}`;
     
@@ -52,51 +76,59 @@ function addMessage(content, isUser) {
     messageDiv.appendChild(messageContent);
     messagesContainer.appendChild(messageDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// Modified addMessage function (handles both display and storage)
+function addMessage(content, isUser) {
+    displayMessage(content, isUser);
 
     if (!chatMessages[thread_id]) {
         chatMessages[thread_id] = [];
     }
     chatMessages[thread_id].push({ content, isUser });
+    updateLocalStorage();
 }
 
-function addChatSession(threadId) {
-    const chatItem = document.createElement("li");
-    chatItem.innerHTML = `
-        <i class="fas fa-message"></i>
-        <span>Chat ${threadId.substring(0, 5)}</span>
-    `;
-    
-    chatItem.addEventListener("click", () => {
-        document.querySelectorAll('#chat-items li').forEach(item => {
-            item.classList.remove('active');
-        });
-        chatItem.classList.add('active');
-        loadChat(threadId);
-        
-        // Close sidebar on mobile when chat is selected
-        if (window.innerWidth <= 768) {
-            sidebarElement.classList.remove('active');
-            overlay.classList.remove('active');
-        }
+// Modified loadChat function (only displays messages)
+function loadChat(threadId) {
+    messagesContainer.innerHTML = '';
+    const messages = chatMessages[threadId] || [];
+    messages.forEach(msg => {
+        displayMessage(msg.content, msg.isUser);
     });
-    
-    if (chatHistory.length === 0) {
-        chatItem.classList.add('active');
-    }
-    
-    chatItems.appendChild(chatItem);
-    chatHistory.push(threadId);
 }
 
-// Mobile menu functionality
-function toggleSidebar() {
-    sidebarElement.classList.toggle('active');
-    overlay.classList.toggle('active');
+function updateChatList() {
+    chatItems.innerHTML = '';
+    chatHistory.forEach(threadId => {
+        const chatItem = document.createElement("li");
+        chatItem.innerHTML = `
+            <i class="fas fa-message"></i>
+            <span>Chat ${threadId.substring(0, 5)}</span>
+        `;
+        
+        if (threadId === thread_id) {
+            chatItem.classList.add('active');
+        }
+        
+        chatItem.addEventListener("click", () => {
+            document.querySelectorAll('#chat-items li').forEach(item => {
+                item.classList.remove('active');
+            });
+            chatItem.classList.add('active');
+            thread_id = threadId;
+            loadChat(threadId);
+            updateLocalStorage();
+            
+            if (window.innerWidth <= 768) {
+                sidebarElement.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+        
+        chatItems.appendChild(chatItem);
+    });
 }
-
-mobileMenuBtn.addEventListener('click', toggleSidebar);
-closeSidebarBtn.addEventListener('click', toggleSidebar);
-overlay.addEventListener('click', toggleSidebar);
 
 // Message sending functionality
 async function sendMessage(message) {
@@ -131,7 +163,17 @@ async function sendMessage(message) {
     }
 }
 
-// Event listeners for sending messages
+// Mobile menu functionality
+function toggleSidebar() {
+    sidebarElement.classList.toggle('active');
+    overlay.classList.toggle('active');
+}
+
+// Event listeners
+mobileMenuBtn.addEventListener('click', toggleSidebar);
+closeSidebarBtn.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', toggleSidebar);
+
 sendBtn.addEventListener("click", () => {
     const message = userInput.value.trim();
     if (message) {
@@ -149,8 +191,21 @@ userInput.addEventListener("keypress", (e) => {
     }
 });
 
-// Initialize first chat session
-addChatSession(thread_id);
+newChatBtn.addEventListener("click", () => {
+    thread_id = Math.random().toString(36).substring(7);
+    chatMessages[thread_id] = [];
+    chatHistory.unshift(thread_id);
+    updateLocalStorage();
+    
+    messagesContainer.innerHTML = '';
+    userInput.value = '';
+    updateChatList();
+    
+    if (window.innerWidth <= 768) {
+        sidebarElement.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+});
 
 // Handle window resize
 window.addEventListener('resize', () => {
@@ -160,39 +215,45 @@ window.addEventListener('resize', () => {
     }
 });
 
-// Add these event listeners after your other initialization code
-document.addEventListener('DOMContentLoaded', () => {
-    // Add click event listener
-    newChatBtn.addEventListener('click', () => {
-        // Clear the messages container
-        messagesContainer.innerHTML = '';
-        
-        // Clear the input field
-        userInput.value = '';
-        
-        // Generate new thread_id
-        thread_id = Math.random().toString(36).substring(7);
-        
-        // Add this chat to the chat list
-        const newChatItem = document.createElement('li');
-        newChatItem.innerHTML = `
-            <i class="fas fa-message"></i>
-            <span>Chat ${thread_id.substring(0, 5)}</span>
-        `;
-        newChatItem.classList.add('chat-item', 'active');
-        
-        // Remove active class from other chat items
-        document.querySelectorAll('#chat-items li').forEach(item => {
-            item.classList.remove('active');
-        });
-        
-        // Add new chat to the list
-        chatItems.insertBefore(newChatItem, chatItems.firstChild);
-        
-        // If on mobile, close the sidebar
-        if (window.innerWidth <= 768) {
-            sidebarElement.classList.remove('active');
-            overlay.classList.remove('active');
-        }
-    });
+// Initialize the application
+window.addEventListener('DOMContentLoaded', () => {
+    updateChatList();
+    loadChat(thread_id);
+});
+
+// Add this function to handle clearing conversations
+function clearConversations() {
+    // Clear localStorage
+    localStorage.removeItem('currentThreadId');
+    localStorage.removeItem('chatHistory');
+    localStorage.removeItem('chatMessages');
+    
+    // Create new thread
+    thread_id = Math.random().toString(36).substring(7);
+    chatHistory = [thread_id];
+    chatMessages = { [thread_id]: [] };
+    
+    // Save new state
+    updateLocalStorage();
+    
+    // Clear UI
+    messagesContainer.innerHTML = '';
+    userInput.value = '';
+    
+    // Update chat list
+    updateChatList();
+    
+    // If on mobile, close the sidebar
+    if (window.innerWidth <= 768) {
+        sidebarElement.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+}
+
+// Add this to your event listeners section
+const clearChatsBtn = document.getElementById('clear-chats-btn');
+clearChatsBtn.addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear all conversations? This cannot be undone.')) {
+        clearConversations();
+    }
 });
