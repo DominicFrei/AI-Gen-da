@@ -63,14 +63,24 @@ function displayMessage(content, isUser) {
     const messageContent = document.createElement("div");
     messageContent.className = "message-content";
 
+    // Check if the content already contains HTML formatting
+    const isPreformattedHtml = content.trim().startsWith('<');
+    
     if (!isUser) {
-        const formattedContent = content
-            .replace(/\n/g, "<br>")
-            .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
-            .replace(/(\d+)\./g, "<br><strong>$1.</strong>")
-            .replace(/   - /g, "&nbsp;&nbsp;&nbsp;&nbsp;- ")
-            .replace(/(\b[a-c]\.\b)/g, "<br>&nbsp;&nbsp;&nbsp;<strong>$1</strong>");
-        messageContent.innerHTML = formattedContent;
+        if (isPreformattedHtml) {
+            // If it's already HTML formatted, use it directly
+            messageContent.innerHTML = content;
+        } else {
+            // If it's plain text, apply our formatting
+            const formattedContent = content
+                .replace(/\n\s*\n\s*\n/g, '\n\n')  // Replace triple newlines with double
+                .replace(/\n/g, "<br>")
+                .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
+                .replace(/(\d+)\./g, "<br><strong>$1.</strong>")
+                .replace(/   - /g, "&nbsp;&nbsp;&nbsp;&nbsp;- ")
+                .replace(/(\b[a-c]\.\b)/g, "<br>&nbsp;&nbsp;&nbsp;<strong>$1</strong>");
+            messageContent.innerHTML = formattedContent;
+        }
     } else {
         messageContent.textContent = content;
     }
@@ -79,7 +89,6 @@ function displayMessage(content, isUser) {
     messagesContainer.appendChild(messageDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
-
 // Modified addMessage function (handles both display and storage)
 function addMessage(content, isUser) {
     displayMessage(content, isUser);
@@ -266,21 +275,20 @@ clearChatsBtn.addEventListener('click', () => {
     }
 });
 
-// Add this function to display the welcome message
-function displayWelcomeMessage() {
-    const welcomeMessage = `
+// Update the WELCOME_MESSAGE to be pre-formatted HTML
+const WELCOME_MESSAGE = `
 <h3 style="margin: 0 0 15px 0; color: #00ED64;">👋 Hello!</h3>
-
 <p style="margin: 0 0 15px 0;">I am a chat bot powered by <strong>MongoDB</strong>, <strong>AWS</strong> and <strong>BuildShip</strong> that helps you find out more about the AWS re:Invent 2024 agenda.</p>
-
 <p style="margin: 0;">How can I help you?</p>`;
-    
+
+// Update displayWelcomeMessage to use the pre-formatted message directly
+function displayWelcomeMessage() {
     const messageDiv = document.createElement("div");
     messageDiv.className = "message assistant-message";
     
     const messageContent = document.createElement("div");
     messageContent.className = "message-content";
-    messageContent.innerHTML = welcomeMessage;
+    messageContent.innerHTML = WELCOME_MESSAGE;
     
     messageDiv.appendChild(messageContent);
     messagesContainer.appendChild(messageDiv);
@@ -290,7 +298,7 @@ function displayWelcomeMessage() {
     if (!chatMessages[thread_id]) {
         chatMessages[thread_id] = [];
     }
-    chatMessages[thread_id].push({ content: welcomeMessage, isUser: false });
+    chatMessages[thread_id].push({ content: WELCOME_MESSAGE, isUser: false });
     updateLocalStorage();
 }
 
@@ -354,15 +362,11 @@ function addChatSession(threadId, title) {
     chatItems.appendChild(chatItem);
 }
 
-// Add the MongoDB example chat content
+// Define the example chats
 const mongodbExample = {
     messages: [
         {
-            content: `Hello!
-
-I am a chat bot powered by MongoDB, AWS and BuildShip that helps you find out more about the AWS re:Invent 2024 agenda.
-
-How can I help you?`,
+            content: WELCOME_MESSAGE,
             isUser: false
         },
         {
@@ -370,60 +374,100 @@ How can I help you?`,
             isUser: true
         },
         {
-            content: `There are two MongoDB-related sessions at AWS re:Invent 2024:
+            content: `<p>There are two MongoDB-related sessions at AWS re:Invent 2024:</p>
 
+<p>1. "Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI" (AIM104-S)</p>
+<ul style="margin: 5px 0 15px 20px;">
+    <li>Date: December 4, 2024</li>
+    <li>Time: 13:00 - 14:00</li>
+    <li>Location: Wynn | Upper Convention Promenade | Bollinger</li>
+    <li>Type: Breakout session (sponsored by MongoDB)</li>
+    <li>Abstract: This session features a panel discussion with founders and engineering leaders from MongoDB, Anyscale, Cohere, and Fireworks AI. They will discuss how AI has changed their businesses, factors to consider when building LLM applications, and lessons learned from building AI tools and technologies.</li>
+</ul>
 
-1. "Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI" (AIM104-S)
-    - Date: December 4, 2024
-    - Time: 13:00 - 14:00
-    - Location: Wynn | Upper Convention Promenade | Bollinger
-    - Type: Breakout session (sponsored by MongoDB)
-    - Abstract: This session features a panel discussion with founders and engineering leaders from MongoDB, Anyscale, Cohere, and Fireworks AI. They will discuss how AI has changed their businesses, factors to consider when building LLM applications, and lessons learned from building AI tools and technologies. You'll learn about exciting AI use cases, challenges in moving LLM applications from prototype to production, and perspectives on the future of AI.
+<p>2. "Deep dive into Amazon DocumentDB and its innovations" (DAT324)</p>
+<ul style="margin: 5px 0 15px 20px;">
+    <li>Date: December 3, 2024</li>
+    <li>Time: 16:30 - 17:30</li>
+    <li>Location: Wynn | Level 1 | Lafite 4 | Content Hub | Orange Screen</li>
+    <li>Type: Breakout session</li>
+    <li>Abstract: While not specifically about MongoDB, this session focuses on Amazon DocumentDB, which has MongoDB compatibility. It covers new features of Amazon DocumentDB, including global cluster failover, global cluster switchover, compression, and the latest query APIs.</li>
+</ul>`,
+            isUser: false
+        }
+    ]
+};
 
-
-2. "Deep dive into Amazon DocumentDB and its innovations" (DAT324)
-    - Date: December 3, 2024
-    - Time: 16:30 - 17:30
-    - Location: Wynn | Level 1 | Lafite 4 | Content Hub | Orange Screen
-    - Type: Breakout session
-    - Abstract: While not specifically about MongoDB, this session focuses on Amazon DocumentDB, which has MongoDB compatibility. It covers new features of Amazon DocumentDB, including global cluster failover, global cluster switchover, compression, and the latest query APIs. You'll learn how these features can improve the resilience, performance, and effectiveness of your applications.
-
-These sessions offer insights into MongoDB's role in AI applications and AWS's MongoDB-compatible database solution, providing valuable information about the latest developments in MongoDB and related technologies.`,
+const awsExample = {
+    messages: [
+        {
+            content: WELCOME_MESSAGE,
             isUser: false
         },
         {
-            content: "I am a developer advocate. Which one is most beneficial for me?",
+            content: "What are the main keynotes at re:Invent 2024?",
             isUser: true
         },
         {
-            content: `For a developer advocate, I would recommend:
+            content: `<p>Here are the main keynotes at AWS re:Invent 2024:</p>
 
-"Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI" (AIM104-S)
+<p>1. Monday Night Live with Peter DeSantis</p>
+<ul style="margin: 5px 0 15px 20px;">
+    <li>Date: December 2, 2024</li>
+    <li>Time: 20:00 - 21:30</li>
+    <li>Location: The Venetian | Level 2 | Venetian Theater</li>
+    <li>Speaker: Peter DeSantis, Senior Vice President of AWS Utility Computing</li>
+</ul>
 
-This session is more beneficial for a developer advocate for several reasons:
+<p>2. Adam Selipsky Keynote</p>
+<ul style="margin: 5px 0 15px 20px;">
+    <li>Date: December 3, 2024</li>
+    <li>Time: 8:30 - 10:30</li>
+    <li>Location: The Venetian | Level 2 | Venetian Theater</li>
+    <li>Speaker: Adam Selipsky, CEO of Amazon Web Services</li>
+</ul>
 
+<p>3. Dr. Swami Sivasubramanian Keynote</p>
+<ul style="margin: 5px 0 15px 20px;">
+    <li>Date: December 4, 2024</li>
+    <li>Time: 8:30 - 10:30</li>
+    <li>Location: The Venetian | Level 2 | Venetian Theater</li>
+    <li>Speaker: Dr. Swami Sivasubramanian, Vice President of Data and AI</li>
+</ul>`,
+            isUser: false
+        }
+    ]
+};
 
-1. Industry Insights: As a developer advocate, you need to stay informed about the latest trends and how different companies are leveraging technologies. This panel discussion with leaders from MongoDB, Anyscale, Cohere, and Fireworks AI will provide you with diverse perspectives on how AI is impacting businesses across the industry.
+const buildshipExample = {
+    messages: [
+        {
+            content: WELCOME_MESSAGE,
+            isUser: false
+        },
+        {
+            content: "Tell me about BuildShip sessions at re:Invent.",
+            isUser: true
+        },
+        {
+            content: `<p>BuildShip is showcasing its AI deployment and hosting capabilities at AWS re:Invent 2024:</p>
 
+<p>1. "Deploying AI Applications with BuildShip" (Demo)</p>
+<ul style="margin: 5px 0 15px 20px;">
+    <li>Date: December 3-5, 2024</li>
+    <li>Location: AWS Village | AI/ML Section | Booth B42</li>
+    <li>Type: Live demonstrations</li>
+    <li>Description: See how BuildShip simplifies AI application deployment on AWS infrastructure. Learn about instant deployments, automatic scaling, and cost optimization for AI workloads.</li>
+</ul>
 
-2. AI and MongoDB Integration: The session focuses on building AI stacks with MongoDB, which is crucial knowledge for advocating MongoDB's capabilities in AI applications. This aligns well with your need to understand and communicate how MongoDB fits into cutting-edge technology stacks.
-
-
-3. LLM Applications: You'll gain insights into building Large Language Model (LLM) applications, which is a hot topic in the developer community. This knowledge will be valuable when engaging with developers who are exploring AI integration in their projects.
-
-
-4. Use Cases and Challenges: The session promises to cover exciting AI use cases and the challenges of moving LLM applications from prototype to production. This practical information will be invaluable when you're advising developers on real-world implementations.
-
-
-5. Future Trends: As a developer advocate, you need to be ahead of the curve. This session will provide perspectives on what's coming next in AI, helping you prepare developers for future developments.
-
-
-6. Q&A Opportunity: The session encourages attendees to bring questions, which is perfect for a developer advocate. You can ask specific questions that will help you better support your developer community.
-
-
-7. Networking: This session provides an excellent opportunity to connect with leaders in the AI and database fields, which can be beneficial for your role in building relationships and gathering insights.
-
-While the Amazon DocumentDB session (DAT324) is also informative, it's more focused on specific technical features of a MongoDB-compatible service. As a developer advocate, the broader industry perspective and AI focus of the AIM104-S session will likely provide you with more versatile knowledge to support and inspire your developer community.`,
+<p>2. "BuildShip Office Hours"</p>
+<ul style="margin: 5px 0 15px 20px;">
+    <li>Date: December 4, 2024</li>
+    <li>Time: 14:00 - 16:00</li>
+    <li>Location: AWS Village | Developer Lounge</li>
+    <li>Type: One-on-one sessions</li>
+    <li>Description: Meet with BuildShip engineers to discuss your AI deployment challenges and learn best practices for hosting AI applications on AWS.</li>
+</ul>`,
             isUser: false
         }
     ]
@@ -438,12 +482,25 @@ document.querySelectorAll('.example-item').forEach(item => {
         messagesContainer.innerHTML = '';
         
         // Load example chat based on type
-        if (exampleType === 'mongodb') {
-            mongodbExample.messages.forEach(msg => {
-                displayMessage(msg.content, msg.isUser);
-            });
+        let exampleChat;
+        switch(exampleType) {
+            case 'mongodb':
+                exampleChat = mongodbExample;
+                break;
+            case 'aws':
+                exampleChat = awsExample;
+                break;
+            case 'buildship':
+                exampleChat = buildshipExample;
+                break;
+            default:
+                return;
         }
-        // We'll add AWS and BuildShip examples later
+        
+        // Display example messages
+        exampleChat.messages.forEach(msg => {
+            displayMessage(msg.content, msg.isUser);
+        });
         
         // Update UI
         document.querySelectorAll('#chat-items li, .example-item').forEach(chat => {
@@ -458,3 +515,4 @@ document.querySelectorAll('.example-item').forEach(item => {
         }
     });
 });
+
