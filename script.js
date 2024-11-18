@@ -394,6 +394,42 @@ const mongodbExample = {
     <li>Abstract: While not specifically about MongoDB, this session focuses on Amazon DocumentDB, which has MongoDB compatibility. It covers new features of Amazon DocumentDB, including global cluster failover, global cluster switchover, compression, and the latest query APIs.</li>
 </ul>`,
             isUser: false
+        },
+        {
+            content: "I am a developer advocate. Which one is most helpful for me?",
+            isUser: true
+        },
+        {
+            content: `<p>As a developer advocate, I would recommend attending the session:</p>
+
+<div style="background: rgba(0,237,100,0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
+    <p style="margin: 0;"><strong>"Building your AI stack with MongoDB, Anyscale, Cohere & Fireworks AI"</strong> (sponsored by MongoDB)</p>
+    <ul style="margin: 10px 0 0 20px; padding: 0;">
+        <li>Session Code: AIM104-S</li>
+        <li>Date: December 4, 2024</li>
+        <li>Time: 13:00 - 14:00</li>
+        <li>Location: Wynn | Upper Convention Promenade | Bollinger</li>
+    </ul>
+</div>
+
+<p>This session is likely to be more helpful for you as a developer advocate for several reasons:</p>
+
+<ol style="margin: 15px 0;">
+    <li><strong>Broader perspective:</strong> The panel includes leaders from multiple companies (MongoDB, Anyscale, Cohere, and Fireworks AI), giving you a wider view of the AI ecosystem and how different technologies integrate.</li>
+
+    <li><strong>AI focus:</strong> As AI is a hot topic in tech, understanding its intersection with databases like MongoDB will be valuable for engaging with developers and showcasing cutting-edge applications.</li>
+
+    <li><strong>Industry insights:</strong> You'll gain insight into how AI is changing businesses, which is crucial for advocating to developers about future trends and opportunities.</li>
+
+    <li><strong>Practical knowledge:</strong> The session covers lessons learned in building AI tools and technologies, which you can share with your developer community.</li>
+
+    <li><strong>Future-oriented:</strong> Discussion on what's coming next in AI will help you prepare developers for upcoming changes and opportunities in the field.</li>
+
+    <li><strong>Q&A opportunity:</strong> As a developer advocate, you can use this session to gather information and ask questions that will benefit the developers you work with.</li>
+</ol>
+
+<p>This session aligns well with a developer advocate's role of staying informed about industry trends, understanding practical applications, and gathering insights to share with the developer community.</p>`,
+            isUser: false
         }
     ]
 };
