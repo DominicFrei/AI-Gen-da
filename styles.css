@@ -440,7 +440,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: 50px;
     background-color: #202123;
     z-index: 1000;
     padding: 0 15px;
@@ -460,8 +460,8 @@ body {
 
     #chat-container {
         width: 100%;
-        height: calc(100% - 60px);
-        margin-top: 60px;
+        height: calc(100% - 50px);
+        margin-top: 50px;
         display: flex;
         flex-direction: column;
     }
@@ -529,7 +529,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: 50px;
     background-color: #202123;
     z-index: 1000;
     padding: 0 15px;
@@ -844,5 +844,43 @@ body {
     
     .mobile-header .credits {
         font-size: 11px;
+    }
+}
+
+/* Add styles for the mobile title line */
+.mobile-header .title-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mobile-header .presents-line {
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mobile-header .mongodb-logo {
+    height: 14px;
+}
+
+.mobile-header .app-title {
+    font-size: 16px;
+    margin: 0;
+}
+
+.mobile-header .credits {
+    font-size: 10px;
+}
+
+/* Update messages padding for smaller header */
+@media (max-width: 768px) {
+    #chat-container {
+        margin-top: 50px; /* Match new header height */
+    }
+    
+    #messages {
+        padding-top: 0;
     }
 }
