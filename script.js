@@ -67,24 +67,26 @@ function displayMessage(content, isUser) {
     const messageContent = document.createElement("div");
     messageContent.className = "message-content";
 
-    // Check if the content already contains HTML formatting
-    const isPreformattedHtml = content.trim().startsWith('<');
-    
     if (!isUser) {
-        if (isPreformattedHtml) {
-            // If it's already HTML formatted, use it directly
-            messageContent.innerHTML = content;
-        } else {
-            // If it's plain text, apply our formatting
-            const formattedContent = content
-                .replace(/\n\s*\n\s*\n/g, '\n\n')  // Replace triple newlines with double
-                .replace(/\n/g, "<br>")
-                .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
-                .replace(/(\d+)\./g, "<br><strong>$1.</strong>")
-                .replace(/   - /g, "&nbsp;&nbsp;&nbsp;&nbsp;- ")
-                .replace(/(\b[a-c]\.\b)/g, "<br>&nbsp;&nbsp;&nbsp;<strong>$1</strong>");
-            messageContent.innerHTML = formattedContent;
-        }
+        // Configure marked options
+        marked.setOptions({
+            highlight: function(code, language) {
+                if (language && hljs.getLanguage(language)) {
+                    return hljs.highlight(code, { language: language }).value;
+                }
+                return hljs.highlightAuto(code).value;
+            },
+            breaks: true,
+            gfm: true
+        });
+
+        // Parse markdown
+        messageContent.innerHTML = marked.parse(content);
+
+        // Apply syntax highlighting to any code blocks
+        messageContent.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
     } else {
         messageContent.textContent = content;
     }
