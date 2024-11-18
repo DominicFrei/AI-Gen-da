@@ -441,69 +441,122 @@ const awsExample = {
             isUser: false
         },
         {
-            content: "What are the main keynotes at re:Invent 2024?",
+            content: "Which sessions should I visit if my main interest is DevOps on AWS?",
             isUser: true
         },
         {
-            content: `<p>Here are the main keynotes at AWS re:Invent 2024:</p>
+            content: `<p>If your main interest is DevOps on AWS, I recommend the following sessions at AWS re:Invent 2024:</p>
 
-<p>1. Monday Night Live with Peter DeSantis</p>
-<ul style="margin: 5px 0 15px 20px;">
-    <li>Date: December 2, 2024</li>
-    <li>Time: 20:00 - 21:30</li>
-    <li>Location: The Venetian | Level 2 | Venetian Theater</li>
-    <li>Speaker: Peter DeSantis, Senior Vice President of AWS Utility Computing</li>
-</ul>
+<div style="margin: 20px 0;">
+    <p>1. "Supercharge your DevOps practices with generative AI" (DEV321)</p>
+    <ul style="margin: 5px 0 15px 20px;">
+        <li>Date: December 2, 2024</li>
+        <li>Time: 10:00 - 11:00</li>
+        <li>Location: Venetian | Level 3 | Murano 3304</li>
+    </ul>
+    <p>This session focuses on how generative AI can revolutionize DevOps practices, improving deployment frequency, reducing lead time for changes, and minimizing service disruptions. It includes live demos of Amazon Q and Amazon Bedrock to streamline workflows and automate tasks.</p>
+</div>
 
-<p>2. Adam Selipsky Keynote</p>
-<ul style="margin: 5px 0 15px 20px;">
-    <li>Date: December 3, 2024</li>
-    <li>Time: 8:30 - 10:30</li>
-    <li>Location: The Venetian | Level 2 | Venetian Theater</li>
-    <li>Speaker: Adam Selipsky, CEO of Amazon Web Services</li>
-</ul>
+<div style="margin: 20px 0;">
+    <p>2. "Supercharge your innovation: Automate for operational excellence" (SUP307)</p>
+    <ul style="margin: 5px 0 15px 20px;">
+        <li>Date: December 5, 2024</li>
+        <li>Time: 11:30 - 12:30</li>
+        <li>Location: MGM Grand | Level 1 | Grand 119</li>
+    </ul>
+    <p>This session covers AWS best practices for streamlining operations and optimizing costs. It explores AWS's own automation practices and strategies to drive growth and innovation, with real operational use cases.</p>
+</div>
 
-<p>3. Dr. Swami Sivasubramanian Keynote</p>
-<ul style="margin: 5px 0 15px 20px;">
-    <li>Date: December 4, 2024</li>
-    <li>Time: 8:30 - 10:30</li>
-    <li>Location: The Venetian | Level 2 | Venetian Theater</li>
-    <li>Speaker: Dr. Swami Sivasubramanian, Vice President of Data and AI</li>
-</ul>`,
-            isUser: false
-        }
-    ]
-};
+<div style="margin: 20px 0;">
+    <p>3. "Building the future of cloud operations at any scale" (COP202-INT)</p>
+    <ul style="margin: 5px 0 15px 20px;">
+        <li>Date: December 2, 2024</li>
+        <li>Time: 09:00 - 10:00</li>
+        <li>Location: Venetian | Level 5 | Palazzo Ballroom B</li>
+    </ul>
+    <p>While not explicitly labeled as DevOps, this session addresses key DevOps concerns such as improving efficiency, enhancing security and compliance, and making operations more intelligent and agile.</p>
+</div>
 
-const buildshipExample = {
-    messages: [
-        {
-            content: WELCOME_MESSAGE,
+<div style="margin: 20px 0;">
+    <p>4. "Reimagining the developer experience at AWS" (DOP220-INT)</p>
+    <ul style="margin: 5px 0 15px 20px;">
+        <li>Date: December 5, 2024</li>
+        <li>Time: 14:00 - 15:00</li>
+        <li>Location: Venetian | Level 5 | Palazzo Ballroom B</li>
+    </ul>
+    <p>This session explores how generative AI is transforming software development, which is crucial for modern DevOps practices. It covers cloud-native innovation and the integration of AI agents across the development lifecycle.</p>
+</div>
+
+<p>These sessions cover a range of DevOps topics, from automation and operational excellence to the integration of AI in DevOps practices, providing a comprehensive view of DevOps on AWS.</p>`,
             isUser: false
         },
         {
-            content: "Tell me about BuildShip sessions at re:Invent.",
+            content: "If I only have time for one, which one would you choose and why?",
             isUser: true
         },
         {
-            content: `<p>BuildShip is showcasing its AI deployment and hosting capabilities at AWS re:Invent 2024:</p>
+            content: `<p>If you only have time for one session, I would recommend:</p>
 
-<p>1. "Deploying AI Applications with BuildShip" (Demo)</p>
-<ul style="margin: 5px 0 15px 20px;">
-    <li>Date: December 3-5, 2024</li>
-    <li>Location: AWS Village | AI/ML Section | Booth B42</li>
-    <li>Type: Live demonstrations</li>
-    <li>Description: See how BuildShip simplifies AI application deployment on AWS infrastructure. Learn about instant deployments, automatic scaling, and cost optimization for AI workloads.</li>
+<div style="background: rgba(0,237,100,0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
+    <p style="margin: 0;"><strong>"Supercharge your DevOps practices with generative AI"</strong> (DEV321)</p>
+    <ul style="margin: 10px 0 0 20px; padding: 0;">
+        <li>Date: December 2, 2024</li>
+        <li>Time: 10:00 - 11:00</li>
+        <li>Location: Venetian | Level 3 | Murano 3304</li>
+    </ul>
+</div>
+
+<p>Here's why this session stands out:</p>
+
+<ol style="margin: 15px 0;">
+    <li><strong>Direct DevOps Focus:</strong> This session is specifically tailored to DevOps practices, which aligns perfectly with your main interest.</li>
+
+    <li><strong>Cutting-edge Technology:</strong> It explores the integration of generative AI into DevOps, which is at the forefront of DevOps evolution. This knowledge will be crucial for staying ahead in the field.</li>
+
+    <li><strong>Practical Demonstrations:</strong> The session includes live demos of Amazon Q and Amazon Bedrock, providing hands-on insights into how these tools can be applied in real DevOps scenarios.</li>
+
+    <li><strong>Comprehensive Coverage:</strong> It addresses key DevOps metrics like deployment frequency, lead time for changes, service disruptions, and change failure rates. This comprehensive approach covers the full spectrum of DevOps concerns.</li>
+
+    <li><strong>Actionable Takeaways:</strong> The session promises to provide practical strategies for harnessing generative AI in DevOps, which you can potentially implement in your own work.</li>
+
+    <li><strong>AWS-Specific Tools:</strong> By focusing on Amazon Q and Amazon Bedrock, you'll gain insights into AWS-specific tools that can enhance your DevOps practices on the AWS platform.</li>
+
+    <li><strong>Future-Oriented:</strong> Understanding how generative AI is transforming DevOps will prepare you for the future of cloud operations and development practices.</li>
+</ol>
+
+<p>This session offers a blend of cutting-edge technology, practical applications, and AWS-specific knowledge, making it the most valuable choice if you can only attend one DevOps-focused session at re:Invent 2024.</p>`,
+            isUser: false
+        },
+        {
+            content: "Anything about Infrastructure-as-code?",
+            isUser: true
+        },
+        {
+            content: `<p>I apologize, but I couldn't find any sessions specifically dedicated to Infrastructure-as-Code (IaC) in the search results provided. However, this doesn't necessarily mean there are no IaC-related sessions at AWS re:Invent 2024. IaC is an important topic in cloud computing and DevOps, so it's likely to be covered in some capacity.</p>
+
+<p>Here are a few suggestions:</p>
+
+<ol style="margin: 15px 0;">
+    <li>The session <strong>"Reimagining the developer experience at AWS"</strong> (DOP220-INT) might touch on IaC as part of the broader discussion on software development practices and cloud-native innovation.</li>
+
+    <li><strong>"Compute innovation for any application, anywhere"</strong> (CMP215-INT) could potentially include information about IaC in the context of managing infrastructure for various compute options.</li>
+
+    <li>IaC principles might be discussed in DevOps-focused sessions like <strong>"Supercharge your DevOps practices with generative AI"</strong> (DEV321), which we discussed earlier.</li>
+</ol>
+
+<p>To find sessions specifically about Infrastructure-as-Code, I recommend:</p>
+
+<ul style="margin: 15px 0; padding-left: 20px;">
+    <li>Check the full AWS re:Invent 2024 agenda when it becomes available, as it may have more detailed session descriptions.</li>
+
+    <li>Look for sessions related to AWS CloudFormation, AWS CDK (Cloud Development Kit), or Terraform, as these are popular IaC tools used with AWS.</li>
+
+    <li>Consider attending broader DevOps or cloud architecture sessions, as IaC is often covered as part of these topics.</li>
+
+    <li>Visit the AWS booth or attend Q&A sessions where you can ask AWS experts about IaC best practices and tools.</li>
 </ul>
 
-<p>2. "BuildShip Office Hours"</p>
-<ul style="margin: 5px 0 15px 20px;">
-    <li>Date: December 4, 2024</li>
-    <li>Time: 14:00 - 16:00</li>
-    <li>Location: AWS Village | Developer Lounge</li>
-    <li>Type: One-on-one sessions</li>
-    <li>Description: Meet with BuildShip engineers to discuss your AI deployment challenges and learn best practices for hosting AI applications on AWS.</li>
-</ul>`,
+<p>If IaC is a crucial topic for you, it might be worth reaching out to AWS re:Invent organizers directly to inquire about any sessions or workshops focusing on this area.</p>`,
             isUser: false
         }
     ]
@@ -525,9 +578,6 @@ document.querySelectorAll('.example-item').forEach(item => {
                 break;
             case 'aws':
                 exampleChat = awsExample;
-                break;
-            case 'buildship':
-                exampleChat = buildshipExample;
                 break;
             default:
                 return;
