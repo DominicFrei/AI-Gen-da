@@ -12,6 +12,8 @@ if (!thread_id || chatHistory.length === 0) {
     localStorage.setItem('currentThreadId', thread_id);
     localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
     localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+    // Display welcome message for new users
+    displayWelcomeMessage();
 }
 
 const backendUrl = "https://bzjj7l.buildship.run/AWSAgent";
@@ -201,6 +203,9 @@ newChatBtn.addEventListener("click", () => {
     userInput.value = '';
     updateChatList();
     
+    // Display welcome message for new chat
+    displayWelcomeMessage();
+    
     if (window.innerWidth <= 768) {
         sidebarElement.classList.remove('active');
         overlay.classList.remove('active');
@@ -240,6 +245,9 @@ function clearConversations() {
     messagesContainer.innerHTML = '';
     userInput.value = '';
     
+    // Display welcome message after clearing
+    displayWelcomeMessage();
+    
     // Update chat list
     updateChatList();
     
@@ -257,3 +265,31 @@ clearChatsBtn.addEventListener('click', () => {
         clearConversations();
     }
 });
+
+// Add this function to display the welcome message
+function displayWelcomeMessage() {
+    const welcomeMessage = `
+<h3 style="margin: 0 0 15px 0; color: #00ED64;">👋 Hello!</h3>
+
+<p style="margin: 0 0 15px 0;">I am a chat bot powered by <strong>MongoDB</strong>, <strong>AWS</strong> and <strong>BuildShip</strong> that helps you find out more about the AWS re:Invent 2024 agenda.</p>
+
+<p style="margin: 0;">How can I help you?</p>`;
+    
+    const messageDiv = document.createElement("div");
+    messageDiv.className = "message assistant-message";
+    
+    const messageContent = document.createElement("div");
+    messageContent.className = "message-content";
+    messageContent.innerHTML = welcomeMessage;
+    
+    messageDiv.appendChild(messageContent);
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    // Add to chat messages
+    if (!chatMessages[thread_id]) {
+        chatMessages[thread_id] = [];
+    }
+    chatMessages[thread_id].push({ content: welcomeMessage, isUser: false });
+    updateLocalStorage();
+}
