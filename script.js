@@ -326,19 +326,19 @@ if (!localStorage.getItem('hasInitialized')) {
     // Clear any existing data
     localStorage.clear();
     
-    // Initialize empty state
+    // Initialize empty state with just a new chat
     thread_id = Math.random().toString(36).substring(7);
-    chatHistory = [];
-    chatMessages = {};
-    chatTitles = {};
+    chatHistory = [thread_id];
+    chatMessages = { [thread_id]: [] };
+    chatTitles = { [thread_id]: 'New Chat' };
     
-    // Create demo chats
-    initializeDemoChats().then(() => {
-        // Save state after demo chats are created
-        updateLocalStorage();
-        // Mark as initialized
-        localStorage.setItem('hasInitialized', 'true');
-    });
+    // Save initial state
+    updateLocalStorage();
+    // Mark as initialized
+    localStorage.setItem('hasInitialized', 'true');
+    
+    // Display welcome message
+    displayWelcomeMessage();
 } else {
     // Load existing data
     thread_id = localStorage.getItem('currentThreadId');
@@ -350,7 +350,7 @@ if (!localStorage.getItem('hasInitialized')) {
     Promise.all(chatHistory.map(async (threadId) => {
         if (!chatTitles[threadId] || chatTitles[threadId] === 'New Chat') {
             const messages = chatMessages[threadId];
-            if (messages && messages.length > 1) { // If there's more than just the welcome message
+            if (messages && messages.length > 1) {
                 const title = await generateChatTitle(messages);
                 if (title) {
                     chatTitles[threadId] = title;
@@ -360,9 +360,7 @@ if (!localStorage.getItem('hasInitialized')) {
             }
         }
     })).then(() => {
-        // Save updated titles
         updateLocalStorage();
-        // Update UI
         updateChatList();
         if (thread_id) {
             loadChat(thread_id);
@@ -437,7 +435,7 @@ function addChatSession(threadId, title) {
     chatItems.appendChild(chatItem);
 }
 
-// Define the example chats
+// Define the static example chats at the top (after WELCOME_MESSAGE)
 const mongodbExample = {
     messages: [
         {
@@ -637,12 +635,12 @@ const awsExample = {
     ]
 };
 
-// Add click handlers for example chats
+// Modify the click handlers for example chats to not interact with localStorage
 document.querySelectorAll('.example-item').forEach(item => {
     item.addEventListener('click', () => {
         const exampleType = item.dataset.example;
         
-        // Clear current chat
+        // Clear current chat display
         messagesContainer.innerHTML = '';
         
         // Load example chat based on type
@@ -658,12 +656,12 @@ document.querySelectorAll('.example-item').forEach(item => {
                 return;
         }
         
-        // Display example messages
+        // Just display the messages without affecting localStorage
         exampleChat.messages.forEach(msg => {
             displayMessage(msg.content, msg.isUser);
         });
         
-        // Update UI
+        // Update UI active states
         document.querySelectorAll('#chat-items li, .example-item').forEach(chat => {
             chat.classList.remove('active');
         });
