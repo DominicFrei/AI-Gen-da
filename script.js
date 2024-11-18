@@ -159,3 +159,40 @@ window.addEventListener('resize', () => {
         overlay.classList.remove('active');
     }
 });
+
+// Add these event listeners after your other initialization code
+document.addEventListener('DOMContentLoaded', () => {
+    // Add click event listener
+    newChatBtn.addEventListener('click', () => {
+        // Clear the messages container
+        messagesContainer.innerHTML = '';
+        
+        // Clear the input field
+        userInput.value = '';
+        
+        // Generate new thread_id
+        thread_id = Math.random().toString(36).substring(7);
+        
+        // Add this chat to the chat list
+        const newChatItem = document.createElement('li');
+        newChatItem.innerHTML = `
+            <i class="fas fa-message"></i>
+            <span>Chat ${thread_id.substring(0, 5)}</span>
+        `;
+        newChatItem.classList.add('chat-item', 'active');
+        
+        // Remove active class from other chat items
+        document.querySelectorAll('#chat-items li').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // Add new chat to the list
+        chatItems.insertBefore(newChatItem, chatItems.firstChild);
+        
+        // If on mobile, close the sidebar
+        if (window.innerWidth <= 768) {
+            sidebarElement.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    });
+});
