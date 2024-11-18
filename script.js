@@ -106,6 +106,15 @@ function addMessage(content, isUser) {
 
 // Modified loadChat function (only displays messages)
 function loadChat(threadId) {
+    // Reset example mode when loading a real chat
+    isViewingExample = false;
+    
+    // Re-enable input area
+    userInput.disabled = false;
+    userInput.placeholder = "Send a message...";
+    sendBtn.disabled = false;
+    document.querySelector('.input-wrapper').classList.remove('disabled');
+    
     messagesContainer.innerHTML = '';
     const messages = chatMessages[threadId] || [];
     messages.forEach(msg => {
@@ -220,6 +229,15 @@ userInput.addEventListener("keypress", (e) => {
 });
 
 newChatBtn.addEventListener("click", () => {
+    // Reset example mode
+    isViewingExample = false;
+    
+    // Re-enable input area
+    userInput.disabled = false;
+    userInput.placeholder = "Send a message...";
+    sendBtn.disabled = false;
+    document.querySelector('.input-wrapper').classList.remove('disabled');
+    
     thread_id = Math.random().toString(36).substring(7);
     chatMessages[thread_id] = [];
     chatHistory.unshift(thread_id);
@@ -635,13 +653,27 @@ const awsExample = {
     ]
 };
 
-// Modify the click handlers for example chats to not interact with localStorage
+// Add a variable to track if we're viewing an example
+let isViewingExample = false;
+
+// Update the example chat click handlers
 document.querySelectorAll('.example-item').forEach(item => {
     item.addEventListener('click', () => {
         const exampleType = item.dataset.example;
         
         // Clear current chat display
         messagesContainer.innerHTML = '';
+        
+        // Set example mode
+        isViewingExample = true;
+        
+        // Disable input area
+        userInput.disabled = true;
+        userInput.placeholder = "This is an example chat - start a new chat to ask questions";
+        sendBtn.disabled = true;
+        
+        // Add visual indication that input is disabled
+        document.querySelector('.input-wrapper').classList.add('disabled');
         
         // Load example chat based on type
         let exampleChat;
@@ -656,7 +688,7 @@ document.querySelectorAll('.example-item').forEach(item => {
                 return;
         }
         
-        // Just display the messages without affecting localStorage
+        // Display the messages
         exampleChat.messages.forEach(msg => {
             displayMessage(msg.content, msg.isUser);
         });
