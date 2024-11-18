@@ -113,9 +113,10 @@ function updateChatList() {
     chatItems.innerHTML = '';
     chatHistory.forEach(threadId => {
         const chatItem = document.createElement("li");
+        const title = chatTitles[threadId] || 'New Chat';
         chatItem.innerHTML = `
             <i class="fas fa-message"></i>
-            <span>Chat ${threadId.substring(0, 5)}</span>
+            <span>${title}</span>
         `;
         
         if (threadId === thread_id) {
@@ -143,6 +144,8 @@ function updateChatList() {
 
 // Message sending functionality
 async function sendMessage(message) {
+    const isFirstMessage = !chatMessages[thread_id] || chatMessages[thread_id].length <= 1; // Check if only welcome message exists
+    
     addMessage(message, true);
     userInput.value = "";
     showLoadingIndicator();
@@ -167,6 +170,16 @@ async function sendMessage(message) {
 
         const data = await response.json();
         addMessage(data.message || "No response from assistant.", false);
+
+        // Generate title after first message exchange (including welcome message)
+        if (isFirstMessage) {
+            const title = await generateChatTitle(chatMessages[thread_id]);
+            if (title) {
+                chatTitles[thread_id] = title;
+                updateLocalStorage();
+                updateChatList();
+            }
+        }
     } catch (error) {
         hideLoadingIndicator();
         console.error("Error:", error);
@@ -206,13 +219,13 @@ newChatBtn.addEventListener("click", () => {
     thread_id = Math.random().toString(36).substring(7);
     chatMessages[thread_id] = [];
     chatHistory.unshift(thread_id);
+    chatTitles[thread_id] = 'New Chat';
     updateLocalStorage();
     
     messagesContainer.innerHTML = '';
     userInput.value = '';
     updateChatList();
     
-    // Display welcome message for new chat
     displayWelcomeMessage();
     
     if (window.innerWidth <= 768) {
@@ -237,30 +250,24 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Add this function to handle clearing conversations
 function clearConversations() {
-    // Clear localStorage
     localStorage.removeItem('currentThreadId');
     localStorage.removeItem('chatHistory');
     localStorage.removeItem('chatMessages');
+    localStorage.removeItem('chatTitles');
     
-    // Create new thread
     thread_id = Math.random().toString(36).substring(7);
     chatHistory = [thread_id];
     chatMessages = { [thread_id]: [] };
+    chatTitles = { [thread_id]: 'New Chat' };
     
-    // Save new state
     updateLocalStorage();
     
-    // Clear UI
     messagesContainer.innerHTML = '';
     userInput.value = '';
     
-    // Display welcome message after clearing
     displayWelcomeMessage();
-    
-    // Update chat list
     updateChatList();
     
-    // If on mobile, close the sidebar
     if (window.innerWidth <= 768) {
         sidebarElement.classList.remove('active');
         overlay.classList.remove('active');
@@ -311,6 +318,7 @@ if (!localStorage.getItem('hasInitialized')) {
     thread_id = Math.random().toString(36).substring(7);
     chatHistory = [];
     chatMessages = {};
+    chatTitles = {};
     
     // Create demo chats
     initializeDemoChats().then(() => {
@@ -324,11 +332,49 @@ if (!localStorage.getItem('hasInitialized')) {
     thread_id = localStorage.getItem('currentThreadId');
     chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
     chatMessages = JSON.parse(localStorage.getItem('chatMessages') || '{}');
+    chatTitles = JSON.parse(localStorage.getItem('chatTitles') || '{}');
     
     // Update UI
     updateChatList();
     if (thread_id) {
         loadChat(thread_id);
+    }
+}
+
+// Add function to generate chat title
+async function generateChatTitle(messages) {
+    try {
+        // Extract text content from HTML messages
+        const chatContent = messages.map(msg => {
+            let content = msg.content;
+            if (!msg.isUser && content.includes('<')) {
+                // Create a temporary div to parse HTML and get text content
+                const temp = document.createElement('div');
+                temp.innerHTML = content;
+                content = temp.textContent;
+            }
+            return `${msg.isUser ? 'User' : 'Assistant'}: ${content}`;
+        }).join('\n\n');
+        
+        const response = await fetch(backendUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                message: `Summarise this chat into 5-6 words to be used as a heading: ${chatContent}`
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.message.replace(/["']/g, '').trim();
+    } catch (error) {
+        console.error("Error generating chat title:", error);
+        return 'New Chat';  // Return 'New Chat' as fallback
     }
 }
 
