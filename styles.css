@@ -1042,3 +1042,39 @@ body {
 .logo-container .credits {
     display: flex !important; /* Force display in all resolutions */
 }
+
+/* Update chat container styles for mobile */
+@media (max-width: 768px) {
+    #chat-container {
+        margin-top: 60px;
+        height: calc(100vh - 60px); /* Full height minus header */
+        display: flex;
+        flex-direction: column;
+    }
+
+    #messages {
+        flex: 1;
+        overflow-y: auto;
+        padding-top: 0;
+        padding-bottom: 80px; /* Add space for input container */
+    }
+
+    #input-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 16px;
+        background: #343541;
+        width: 100%;
+        box-sizing: border-box;
+        z-index: 1000;
+    }
+}
+
+/* Adjust for even smaller screens */
+@media (max-width: 480px) {
+    #input-container {
+        padding: 12px;
+    }
+}
