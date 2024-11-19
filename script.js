@@ -1,17 +1,17 @@
 // First, load data from localStorage
-let thread_id = localStorage.getItem('currentThreadId');
+let threadId = localStorage.getItem('currentThreadId');
 let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
 let chatMessages = JSON.parse(localStorage.getItem('chatMessages') || '{}');
 let chatTitles = JSON.parse(localStorage.getItem('chatTitles') || '{}');
 
-// If there's no thread_id or chat history, initialize with a new chat
-if (!thread_id || chatHistory.length === 0) {
-    thread_id = Math.random().toString(36).substring(7);
-    chatHistory = [thread_id];
-    chatMessages = { [thread_id]: [] };
-    chatTitles = { [thread_id]: 'New Chat' };
+// If there's no threadId or chat history, initialize with a new chat
+if (!threadId || chatHistory.length === 0) {
+    threadId = Math.random().toString(36).substring(7);
+    chatHistory = [threadId];
+    chatMessages = { [threadId]: [] };
+    chatTitles = { [threadId]: 'New Chat' };
     // Save initial state
-    localStorage.setItem('currentThreadId', thread_id);
+    localStorage.setItem('currentThreadId', threadId);
     localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
     localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
     localStorage.setItem('chatTitles', JSON.stringify(chatTitles));
@@ -50,7 +50,7 @@ function hideLoadingIndicator() {
 // Update localStorage helper function
 function updateLocalStorage() {
     try {
-        localStorage.setItem('currentThreadId', thread_id);
+        localStorage.setItem('currentThreadId', threadId);
         localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
         localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
         localStorage.setItem('chatTitles', JSON.stringify(chatTitles));
@@ -99,15 +99,15 @@ function displayMessage(content, isUser) {
 function addMessage(content, isUser) {
     displayMessage(content, isUser);
 
-    if (!chatMessages[thread_id]) {
-        chatMessages[thread_id] = [];
+    if (!chatMessages[threadId]) {
+        chatMessages[threadId] = [];
     }
-    chatMessages[thread_id].push({ content, isUser });
+    chatMessages[threadId].push({ content, isUser });
     updateLocalStorage();
 }
 
 // Modified loadChat function (only displays messages)
-function loadChat(threadId) {
+function loadChat(chatThreadId) {
     // Reset example mode when loading a real chat
     isViewingExample = false;
     
@@ -118,7 +118,7 @@ function loadChat(threadId) {
     document.querySelector('.input-wrapper').classList.remove('disabled');
     
     messagesContainer.innerHTML = '';
-    const messages = chatMessages[threadId] || [];
+    const messages = chatMessages[chatThreadId] || [];
     messages.forEach(msg => {
         displayMessage(msg.content, msg.isUser);
     });
@@ -134,7 +134,7 @@ function updateChatList() {
             <span>${title}</span>
         `;
         
-        if (threadId === thread_id) {
+        if (threadId === threadId) {
             chatItem.classList.add('active');
         }
         
@@ -143,7 +143,7 @@ function updateChatList() {
                 item.classList.remove('active');
             });
             chatItem.classList.add('active');
-            thread_id = threadId;
+            threadId = threadId;
             loadChat(threadId);
             updateLocalStorage();
             
@@ -159,7 +159,7 @@ function updateChatList() {
 
 // Message sending functionality
 async function sendMessage(message) {
-    const isFirstMessage = !chatMessages[thread_id] || chatMessages[thread_id].length <= 1; // Check if only welcome message exists
+    const isFirstMessage = !chatMessages[threadId] || chatMessages[threadId].length <= 1; // Check if only welcome message exists
     
     addMessage(message, true);
     userInput.value = "";
@@ -173,7 +173,7 @@ async function sendMessage(message) {
             },
             body: JSON.stringify({
                 message: message,
-                thread_id: thread_id
+                threadId: threadId
             })
         });
 
@@ -188,9 +188,9 @@ async function sendMessage(message) {
 
         // Generate title after first message exchange (including welcome message)
         if (isFirstMessage) {
-            const title = await generateChatTitle(chatMessages[thread_id]);
+            const title = await generateChatTitle(chatMessages[threadId]);
             if (title) {
-                chatTitles[thread_id] = title;
+                chatTitles[threadId] = title;
                 updateLocalStorage();
                 updateChatList();
             }
@@ -240,10 +240,10 @@ newChatBtn.addEventListener("click", () => {
     sendBtn.disabled = false;
     document.querySelector('.input-wrapper').classList.remove('disabled');
     
-    thread_id = Math.random().toString(36).substring(7);
-    chatMessages[thread_id] = [];
-    chatHistory.unshift(thread_id);
-    chatTitles[thread_id] = 'New Chat';
+    threadId = Math.random().toString(36).substring(7);
+    chatMessages[threadId] = [];
+    chatHistory.unshift(threadId);
+    chatTitles[threadId] = 'New Chat';
     updateLocalStorage();
     
     messagesContainer.innerHTML = '';
@@ -269,7 +269,7 @@ window.addEventListener('resize', () => {
 // Initialize the application
 window.addEventListener('DOMContentLoaded', () => {
     updateChatList();
-    loadChat(thread_id);
+    loadChat(threadId);
 });
 
 // Add this function to handle clearing conversations
@@ -281,10 +281,10 @@ function clearConversations() {
     localStorage.removeItem('chatTitles');
     
     // Create new thread
-    thread_id = Math.random().toString(36).substring(7);
-    chatHistory = [thread_id];
-    chatMessages = { [thread_id]: [] };
-    chatTitles = { [thread_id]: 'New Chat' };
+    threadId = Math.random().toString(36).substring(7);
+    chatHistory = [threadId];
+    chatMessages = { [threadId]: [] };
+    chatTitles = { [threadId]: 'New Chat' };
     
     // Save new state
     updateLocalStorage();
@@ -334,10 +334,10 @@ function displayWelcomeMessage() {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
     
     // Add to chat messages
-    if (!chatMessages[thread_id]) {
-        chatMessages[thread_id] = [];
+    if (!chatMessages[threadId]) {
+        chatMessages[threadId] = [];
     }
-    chatMessages[thread_id].push({ content: WELCOME_MESSAGE, isUser: false });
+    chatMessages[threadId].push({ content: WELCOME_MESSAGE, isUser: false });
     updateLocalStorage();
 }
 
@@ -347,10 +347,10 @@ if (!localStorage.getItem('hasInitialized')) {
     localStorage.clear();
     
     // Initialize empty state with just a new chat
-    thread_id = Math.random().toString(36).substring(7);
-    chatHistory = [thread_id];
-    chatMessages = { [thread_id]: [] };
-    chatTitles = { [thread_id]: 'New Chat' };
+    threadId = Math.random().toString(36).substring(7);
+    chatHistory = [threadId];
+    chatMessages = { [threadId]: [] };
+    chatTitles = { [threadId]: 'New Chat' };
     
     // Save initial state
     updateLocalStorage();
@@ -361,7 +361,7 @@ if (!localStorage.getItem('hasInitialized')) {
     displayWelcomeMessage();
 } else {
     // Load existing data
-    thread_id = localStorage.getItem('currentThreadId');
+    threadId = localStorage.getItem('currentThreadId');
     chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
     chatMessages = JSON.parse(localStorage.getItem('chatMessages') || '{}');
     chatTitles = JSON.parse(localStorage.getItem('chatTitles') || '{}');
@@ -382,8 +382,8 @@ if (!localStorage.getItem('hasInitialized')) {
     })).then(() => {
         updateLocalStorage();
         updateChatList();
-        if (thread_id) {
-            loadChat(thread_id);
+        if (threadId) {
+            loadChat(threadId);
         }
     });
 }
@@ -438,7 +438,7 @@ function addChatSession(threadId, title) {
             item.classList.remove('active');
         });
         chatItem.classList.add('active');
-        thread_id = threadId;
+        threadId = threadId;
         loadChat(threadId);
         updateLocalStorage();
         
@@ -448,7 +448,7 @@ function addChatSession(threadId, title) {
         }
     });
     
-    if (threadId === thread_id) {
+    if (threadId === threadId) {
         chatItem.classList.add('active');
     }
     
